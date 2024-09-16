@@ -13,7 +13,7 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 - [API 2](#API-2)
   - [Índice](#índice)
   - [Cronograma e Sprints](#cronograma-e-sprints)
-    - [Sprint 1. Concepção](#sprint-1-produto-mínimo-viável)
+    - [Sprint 1. Produto Mínimo Viável](#sprint-1-produto-mínimo-viável)
   - [Competências desenvolvidas](#competências-desenvolvidas)
     - [Hard Skills](#hard-skills)
     - [Soft Skills](#soft-skills)
@@ -97,4 +97,4 @@ Soft skills desenvolvidas
 |  Team Member  | Humberto Ishii      |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/HumbertoIshii)        |
 |  Team Member  | Wesley Gonçalves    |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/WesleyGoncalves)      |
 
-![Bug Busters](./src/static/images/bug-busters-logo-black.jpg)
+![Bug Busters](bug-busters-logo-black.jpg)
