@@ -34,6 +34,9 @@ replay_pid*
 ####### Maven #######
 #####################
 target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -82,6 +85,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.sts4-cache
 
 # External tool builders
 .externalToolBuilders/
@@ -167,13 +171,14 @@ local.properties
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
 # .idea/artifacts
-# .idea/compiler.xml
-# .idea/jarRepositories.xml
-# .idea/modules.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
 # .idea/*.iml
 # .idea/modules
-# *.iml
-# *.ipr
+*.iml
+*.ipr
+.idea/libraries/
 
 # CMake
 cmake-build-*/
@@ -213,3 +218,6 @@ fabric.properties
 
 ###### Draw.io ######
 *.drawio.bkp
+
+### Mac OS ###
+.DS_Store
