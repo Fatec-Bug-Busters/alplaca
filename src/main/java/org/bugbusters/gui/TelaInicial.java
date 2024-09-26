@@ -84,7 +84,7 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        textTest.setText("No file selectec");
+        textTest.setText("No file selected");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
