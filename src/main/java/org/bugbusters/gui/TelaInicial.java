@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI;
-//import io.github.ollama4j.OllamaAPI;
-//import io.github.ollama4j.exceptions.OllamaBaseException;
-//import io.github.ollama4j.models.response.OllamaResult;
-//import io.github.ollama4j.utils.OptionsBuilder;
-//import java.io.File;
+package org.bugbusters.gui;
+import io.github.ollama4j.OllamaAPI;
+import io.github.ollama4j.exceptions.OllamaBaseException;
+import io.github.ollama4j.models.response.OllamaResult;
+import io.github.ollama4j.utils.OptionsBuilder;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -84,7 +84,7 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        textTest.setText("No file selectec");
+        textTest.setText("No file selected");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -209,31 +209,31 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1AncestorAdded
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-//        String host = "http://localhost:11434/"; // URL do Ollama
-//            OllamaAPI ollamaAPI = new OllamaAPI(host);
-//            ollamaAPI.setRequestTimeoutSeconds(100); // Tempo de espera para obter resposta
-//
-//            // Criação manual da lista de arquivos
-//            List<File> imageFiles = new ArrayList<>();
-//            imageFiles.add(new File(filePath));
-//
-//            OllamaResult result = null;
-//            try {
-//                result = ollamaAPI.generateWithImageFiles(
-//                        "moondream", // Nome do modelo de IA
-//                        "What are the numbers of this plate?", // O comando
-//                        imageFiles, // Lista de arquivos de imagem
-//                        new OptionsBuilder().build() // Configurações
-//                );
-//            } catch (OllamaBaseException ex) {
-//                throw new RuntimeException(ex);
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            } catch (InterruptedException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//            textTest.setText(result.getResponse());
-//            System.out.println(result.getResponse());;
+        String host = "http://localhost:11434/"; // URL do Ollama
+            OllamaAPI ollamaAPI = new OllamaAPI(host);
+            ollamaAPI.setRequestTimeoutSeconds(100); // Tempo de espera para obter resposta
+
+            // Criação manual da lista de arquivos
+            List<File> imageFiles = new ArrayList<>();
+            imageFiles.add(new File(filePath));
+
+            OllamaResult result = null;
+            try {
+                result = ollamaAPI.generateWithImageFiles(
+                        "moondream", // Nome do modelo de IA
+                        "This car plate model is: 3 letters - 4 numbers. Show me only the numbers and letters of this plate", // O comando
+                        imageFiles, // Lista de arquivos de imagem
+                        new OptionsBuilder().build() // Configurações
+                );
+            } catch (OllamaBaseException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            jTextArea1.setText(result.getResponse());
+            System.out.println(result.getResponse());
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
