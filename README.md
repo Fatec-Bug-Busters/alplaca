@@ -18,6 +18,7 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
     - [Hard Skills](#hard-skills)
     - [Soft Skills](#soft-skills)
   - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+  - [Documentos](#documentos)
   - [Autores](#autores)
 
 ## Cronograma e Sprints
@@ -78,6 +79,20 @@ Soft skills desenvolvidas
 - Draw.io
 - Markdown
 
+## Documentos
+
+# Gráfico Burndown
+
+![Burndown](.images/BurndownS1.png)
+
+# Backlog do Produto
+
+![Backlog Produto](.images/BacklogProduto.png)
+
+# Backlog da Sprint 1
+
+![Backlog Sprint](.images/BacklogS1.png)
+
 <!-- ## Veja Também
 
 [Como Contribuir](./CONTRIBUTING.md) para você que quer contribuir no desenvolvimento desse projeto.
@@ -97,4 +112,4 @@ Soft skills desenvolvidas
 |  Team Member  | Humberto Ishii      |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/HumbertoIshii)        |
 |  Team Member  | Wesley Gonçalves    |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/WesleyGoncalves)      |
 
-![Bug Busters](bug-busters-logo-black.jpg)
+![Bug Busters](.images/bug-busters-logo-black.jpg)
