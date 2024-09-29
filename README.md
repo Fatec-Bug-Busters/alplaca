@@ -83,15 +83,15 @@ Soft skills desenvolvidas
 
 # Gráfico Burndown
 
-![Burndown](.images/BurndownS1.png)
+![Burndown](images/BurndownS1.png)
 
 # Backlog do Produto
 
-![Backlog Produto](.images/BacklogProduto.png)
+![Backlog Produto](images/BacklogProduto.png)
 
 # Backlog da Sprint 1
 
-![Backlog Sprint](.images/BacklogS1.png)
+![Backlog Sprint](images/BacklogS1.png)
 
 <!-- ## Veja Também
 
@@ -112,4 +112,4 @@ Soft skills desenvolvidas
 |  Team Member  | Humberto Ishii      |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/HumbertoIshii)        |
 |  Team Member  | Wesley Gonçalves    |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/WesleyGoncalves)      |
 
-![Bug Busters](.images/bug-busters-logo-black.jpg)
+![Bug Busters](images/bug-busters-logo-black.jpg)
