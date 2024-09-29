@@ -81,15 +81,15 @@ Soft skills desenvolvidas
 
 ## Documentos
 
-# Gráfico Burndown
+### Gráfico Burndown
 
 ![Burndown](images/BurndownS1.png)
 
-# Backlog do Produto
+### Backlog do Produto
 
 ![Backlog Produto](images/BacklogProduto.png)
 
-# Backlog da Sprint 1
+### Backlog da Sprint 1
 
 ![Backlog Sprint](images/BacklogS1.png)
 
