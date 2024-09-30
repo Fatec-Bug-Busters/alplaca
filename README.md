@@ -26,8 +26,8 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 | Sprint            | Previsão   | Status       |
 | ----------------- | ---------- | ------------ |
 | Kick Off          | 29/08/2024 | Concluído    |
-| 01                | 09/09/2024 | Em progresso |
-| 02                | 30/09/2024 | A fazer      |
+| 01                | 09/09/2024 | Concluída    |
+| 02                | 30/09/2024 | Em progresso |
 | 03                | 21/10/2024 | A fazer      |
 | 04                | 11/11/2024 | A fazer      |
 | Feira de Soluções | 12/12/2024 | A fazer      |
