@@ -34,7 +34,7 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 
 ### Sprint 1. Produto Mínimo Viável
 
-![GIF Sprint 1](images/GIF teste sprint 1.gif)
+![GIF Sprint 1](images/Gif-teste-sprint-1.gif)
 - [x] Interface simplificada;
 - [x] Leitura de placas de carro;
 - [x] Opções de modelo de IA.
