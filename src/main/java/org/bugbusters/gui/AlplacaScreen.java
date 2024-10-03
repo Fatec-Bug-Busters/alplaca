@@ -135,6 +135,7 @@ public class AlplacaScreen {
                     listModels.add(modelName); //Mudar para adicionar ao BD futuramente (trampo do Gabriel)
                     JOptionPane.showMessageDialog(null,"Modelo adicionado a lista");
                     modelDropdown.setModel(new DefaultComboBoxModel(listModels.toArray()));
+                    modelDropdown.setSelectedItem(modelName);
                 }
             }
         });
