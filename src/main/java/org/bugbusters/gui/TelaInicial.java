@@ -8,6 +8,7 @@ import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.utils.OptionsBuilder;
 import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.models.response.OllamaResult;
+import org.bugbusters.database.ImageSave;
 import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
@@ -223,6 +224,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
             OllamaResult result = null;
             try {
+                ImageSave.save(filePath);
                 result = ollamaAPI.generateWithImageFiles(
                         "moondream", // Nome do modelo de IA
                         "This car plate model is: 3 letters - 4 numbers. Show me only the numbers and letters of this plate", // O comando
