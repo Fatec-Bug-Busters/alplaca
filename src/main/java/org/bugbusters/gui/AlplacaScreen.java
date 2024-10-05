@@ -2,6 +2,7 @@ package org.bugbusters.gui;
 
 import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.models.response.OllamaResult;
+import org.bugbusters.database.ImageSave;
 import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
@@ -45,6 +46,7 @@ public class AlplacaScreen {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                ImageSave.save(filePath);
                 OllamaAPI ollamaAPI = Ollama.getInstance();
                 OllamaRequest request = new OllamaRequest(ollamaAPI, "moondream");
                 OllamaResult result;
