@@ -4,6 +4,7 @@ import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.Model;
 import io.github.ollama4j.models.response.OllamaResult;
+import org.bugbusters.database.ImageSave;
 import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
@@ -92,6 +93,7 @@ public class AlplacaScreen {
             @Override
             public void actionPerformed(ActionEvent evt) {
 
+
                 String modelName = modelDropdown.getSelectedItem().toString();
 
                 //Verifica se o modelo já esta installado e da a opção de instalar caso não esteja
@@ -122,6 +124,11 @@ public class AlplacaScreen {
 
                 //Manda a imagem e o prompt para a AI e retorna a resposta na interface
                 request.setModel(modelName);
+
+                ImageSave.save(filePath);
+                OllamaAPI ollamaAPI = Ollama.getInstance();
+                OllamaRequest request = new OllamaRequest(ollamaAPI, "moondream");
+
                 OllamaResult result;
                 try {
                     File[] images = {
