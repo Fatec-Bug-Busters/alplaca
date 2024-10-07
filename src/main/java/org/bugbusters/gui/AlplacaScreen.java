@@ -25,6 +25,7 @@ public class AlplacaScreen {
     private JComboBox modelDropdown;
     private JTextField textAddModel;
     private JButton addModelButton;
+    private JComboBox dropdownOpt;
     private String fileName;
     private String filePath;
 
@@ -73,6 +74,20 @@ public class AlplacaScreen {
                 }
             }
         });
+
+        ArrayList<String> showInfo = new ArrayList<String>() {{
+            add("Localidade");
+            add("Número da placa");
+        }};
+        dropdownOpt.setModel(new DefaultComboBoxModel(showInfo.toArray()));
+
+        dropdownOpt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedItem = (String) dropdownOpt.getSelectedItem();
+            }
+        });
+
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -112,11 +127,20 @@ public class AlplacaScreen {
                     File[] images = {
                         new File(filePath)
                     };
-                    result = request.syncWithImageFilesRequest(
-                        "Answer me without an explanation what's the license plate number, the color of the car and where is it from?",
-                        images
-                    );
-                    textResult.setText(result.getResponse());
+                    String selectedItem = (String) dropdownOpt.getSelectedItem();
+                    if(selectedItem.equals("Localidade")){
+                        result = request.syncWithImageFilesRequest(
+                            "This plate has a text on top of it, this is where it's from, show me only it",
+                            images
+                        );
+                        textResult.setText(result.getResponse());
+                    } else if(selectedItem.equals("Número da placa")) {
+                        result = request.syncWithImageFilesRequest(
+                            "This car plate model is: 3 letters - 4 numbers. Show me only the numbers and letters of this plate",
+                            images
+                        );
+                        textResult.setText(result.getResponse());
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
