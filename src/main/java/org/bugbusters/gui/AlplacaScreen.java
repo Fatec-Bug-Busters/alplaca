@@ -153,8 +153,12 @@ public class AlplacaScreen {
                 String modelName = (String) trigger.getSelectedItem();
 
                 try {
-                    boolean isInstalled = models.isInstalled(modelName);
-                    System.out.println(isInstalled);
+                    if(!models.isInstalled(modelName)) {
+                        // Display the button to suggest installation
+                        displayInstallModelTrigger();
+                        // Deactivate send request button
+                        deactivateSendRequestButton();
+                    }
                 } catch (Exception err) {
                     err.printStackTrace();
                 }
@@ -184,5 +188,19 @@ public class AlplacaScreen {
         supportedModels = models.getSupportedModels();
         Arrays.sort(supportedModels);
         modelDropdown.setModel(new DefaultComboBoxModel(supportedModels));
+    }
+
+    /**
+     * Display the trigger as a suggestion to install the selected model
+     */
+    protected void displayInstallModelTrigger() {
+        //
+    }
+
+    /**
+     * Deactivate send request button
+     */
+    protected void deactivateSendRequestButton() {
+        //
     }
 }
