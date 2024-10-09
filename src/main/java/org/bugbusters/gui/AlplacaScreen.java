@@ -3,7 +3,10 @@ package org.bugbusters.gui;
 import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.Model;
+import io.github.ollama4j.models.response.ModelDetail;
 import io.github.ollama4j.models.response.OllamaResult;
+
+import org.bugbusters.ollama.Models;
 import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
@@ -14,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AlplacaScreen {
@@ -28,33 +32,27 @@ public class AlplacaScreen {
     private String fileName;
     private String filePath;
 
+    protected OllamaAPI ollamaAPI;
+    protected OllamaRequest request;
+    protected Models models;
+    /**
+     * List of model names Ollama supports
+     */
+    protected String[] supportedModels;
+
 
     public AlplacaScreen() {
 
         //JTextArea Line Break
         textResult.setLineWrap(true);
         textResult.setWrapStyleWord(true);
-        OllamaAPI ollamaAPI = Ollama.getInstance();
-        OllamaRequest request = new OllamaRequest(ollamaAPI, "");
 
-        ArrayList<String> installedModels = new ArrayList<String>();
+        ollamaAPI = Ollama.getInstance();
+        request = new OllamaRequest(ollamaAPI, "");
+        models = new Models(ollamaAPI);
 
-
-        //Fazer isso pelo BD depois (trampo do Gabriel)
-        ArrayList<String> listModels = new ArrayList<String>() {{
-            add("moondream");
-            add("llava-phi3");
-            add("llava-llama3");
-        }};
-        modelDropdown.setModel(new DefaultComboBoxModel(listModels.toArray()));
-
-        try {
-            List<Model> models = request.listAvailableModels();
-            models.forEach(model -> installedModels.add(model.getModelName()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        // Add models to dropdown
+        displaySupportedModels();
 
         openButton.addActionListener(new ActionListener() {
             @Override
@@ -79,6 +77,7 @@ public class AlplacaScreen {
 
                 String modelName = modelDropdown.getSelectedItem().toString();
 
+                /*
                 //Verifica se o modelo já esta installado e da a opção de instalar caso não esteja
                 if (!installedModels.contains(modelName)) {
                     int confirmation = JOptionPane.showConfirmDialog(null,
@@ -104,6 +103,7 @@ public class AlplacaScreen {
                         }
                     }
                 }
+                 */
 
                 //Manda a imagem e o prompt para a AI e retorna a resposta na interface
                 request.setModel(modelName);
@@ -122,11 +122,13 @@ public class AlplacaScreen {
                 }
             }
         });
+
         addModelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String modelName = textAddModel.getText();
 
+                /*
                 //Verifica se modelo esta no dropbox
                 if (listModels.contains(modelName)) {
                     JOptionPane.showMessageDialog(null,"Modelo já esta na lista");
@@ -136,6 +138,25 @@ public class AlplacaScreen {
                     JOptionPane.showMessageDialog(null,"Modelo adicionado a lista");
                     modelDropdown.setModel(new DefaultComboBoxModel(listModels.toArray()));
                     modelDropdown.setSelectedItem(modelName);
+                }
+                 */
+            }
+        });
+        modelDropdown.addActionListener(new ActionListener() {
+            /**
+             * Check whether the chosen model is installed, and suggest installation, in case it is not
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox trigger = (JComboBox) e.getSource();
+                String modelName = (String) trigger.getSelectedItem();
+
+                try {
+                    boolean isInstalled = models.isInstalled(modelName);
+                    System.out.println(isInstalled);
+                } catch (Exception err) {
+                    err.printStackTrace();
                 }
             }
         });
@@ -154,5 +175,14 @@ public class AlplacaScreen {
             AlplacaScreen tela = new AlplacaScreen();
             tela.createAndShowGUI();
         });
+    }
+
+    /**
+     * Display the supported models
+     */
+    protected void displaySupportedModels() {
+        supportedModels = models.getSupportedModels();
+        Arrays.sort(supportedModels);
+        modelDropdown.setModel(new DefaultComboBoxModel(supportedModels));
     }
 }
