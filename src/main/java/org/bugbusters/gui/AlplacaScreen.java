@@ -153,11 +153,17 @@ public class AlplacaScreen {
                 String modelName = (String) trigger.getSelectedItem();
 
                 try {
-                    if(!models.isInstalled(modelName)) {
+                    if(models.isInstalled(modelName)) {
+                        enableSendRequestButton();
+                    } else {
                         // Display the button to suggest installation
                         displayInstallModelTrigger();
                         // Deactivate send request button
-                        deactivateSendRequestButton();
+                        disableSendRequestButton();
+
+                        // TODO: Call this from trigger listener
+                        //  Install model
+                        // models.installModel(modelName);
                     }
                 } catch (Exception err) {
                     err.printStackTrace();
@@ -198,9 +204,23 @@ public class AlplacaScreen {
     }
 
     /**
-     * Deactivate send request button
+     * Hide the trigger as a suggestion to install the selected model
      */
-    protected void deactivateSendRequestButton() {
+    protected void hideInstallModelTrigger() {
+        //
+    }
+
+    /**
+     * Disable send request button
+     */
+    protected void disableSendRequestButton() {
+        //
+    }
+
+    /**
+     * Enable send request button
+     */
+    protected void enableSendRequestButton() {
         //
     }
 }

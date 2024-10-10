@@ -4,14 +4,11 @@ import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.Model;
 import io.github.ollama4j.models.response.ModelDetail;
-import io.github.ollama4j.types.OllamaModelType;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.MissingResourceException;
 
 /**
  * Ollama models
@@ -28,6 +25,9 @@ public class Models {
      * See {@link io.github.ollama4j.types.OllamaModelType}.
      */
     public String[] getSupportedModels() {
+        /*
+            TODO: CHANGE THIS
+         */
         String[] multimodalModelNames = {
             "moondream",
             "llama2",
@@ -72,6 +72,10 @@ public class Models {
     public boolean isInstalled(String modelName) throws OllamaBaseException, IOException, URISyntaxException, InterruptedException {
         List<Model> installedModels = getAvailableModels();
         return installedModels.stream().anyMatch(model -> model.getModelName().equals(modelName));
+    }
+
+    public void installModel(String modelName) throws OllamaBaseException, IOException, URISyntaxException, InterruptedException {
+        api.pullModel(modelName);
     }
 
     public ModelDetail getModelDetail(String modelName) throws IOException, OllamaBaseException, URISyntaxException, InterruptedException {
