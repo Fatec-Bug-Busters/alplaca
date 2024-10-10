@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlplacaScreen {
-    private JTextArea textResult;
+    private JTextArea textResult1;
     private JButton openButton;
     private JButton sendButton;
     private JLabel textFile;
@@ -27,6 +27,8 @@ public class AlplacaScreen {
     private JTextField textAddModel;
     private JButton addModelButton;
     private JComboBox dropdownOpt;
+    private JTextArea textResult2;
+    private JButton enviarBDButton;
     private String fileName;
     private String filePath;
 
@@ -34,8 +36,10 @@ public class AlplacaScreen {
     public AlplacaScreen() {
 
         //JTextArea Line Break
-        textResult.setLineWrap(true);
-        textResult.setWrapStyleWord(true);
+        textResult1.setLineWrap(true);
+        textResult1.setWrapStyleWord(true);
+        textResult2.setLineWrap(true);
+        textResult2.setWrapStyleWord(true);
         OllamaAPI ollamaAPI = Ollama.getInstance();
         OllamaRequest request = new OllamaRequest(ollamaAPI, "");
 
@@ -140,13 +144,13 @@ public class AlplacaScreen {
                             "This plate has a text on top of it, this is where it's from, show me only it",
                             images
                         );
-                        textResult.setText(result.getResponse());
+                        textResult1.setText(result.getResponse());
                     } else if(selectedItem.equals("Número da placa")) {
                         result = request.syncWithImageFilesRequest(
                             "This car plate model is: 3 letters - 4 numbers. Show me only the numbers and letters of this plate",
                             images
                         );
-                        textResult.setText(result.getResponse());
+                        textResult2.setText(result.getResponse());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
