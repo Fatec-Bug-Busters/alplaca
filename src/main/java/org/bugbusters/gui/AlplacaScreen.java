@@ -40,44 +40,27 @@ public class AlplacaScreen {
     protected OllamaAPI ollamaAPI;
     protected OllamaRequest request;
     protected Models models;
-    /**
-     * List of model names Ollama supports
-     */
-    protected String[] supportedModels;
-
 
     public AlplacaScreen() {
 
         //JTextArea Line Break
-        textResult.setLineWrap(true);
-        textResult.setWrapStyleWord(true);
         textResult1.setLineWrap(true);
         textResult1.setWrapStyleWord(true);
         textResult2.setLineWrap(true);
         textResult2.setWrapStyleWord(true);
+
         OllamaAPI ollamaAPI = Ollama.getInstance();
         OllamaRequest request = new OllamaRequest(ollamaAPI, "");
+        models = new Models(ollamaAPI);
 
         ArrayList<String> installedModels = new ArrayList<String>();
-
-        ollamaAPI = Ollama.getInstance();
-        request = new OllamaRequest(ollamaAPI, "");
-        models = new Models(ollamaAPI);
 
         // Add models to dropdown
         displaySupportedModels();
 
-        // display supported models
-        modelDropdown.setModel(new DefaultComboBoxModel(ModelList.alplacaModels.getModelDisplayNames().toArray()));
-        try {
-            List<Model> models = request.listAvailableModels();
-            models.forEach(model -> installedModels.add(model.getModelName()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // end display supported models
-
-
+        /**
+         * Open dialog to upload image
+         */
         openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,41 +92,15 @@ public class AlplacaScreen {
             }
         });
 
+        /**
+         * Send request to the API
+         */
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
 
-
                 //String modelName = modelDropdown.getSelectedItem().toString();
                 String modelName = ModelList.alplacaModels.getModelName(modelDropdown.getSelectedItem().toString());
-
-                /*
-                //Verifica se o modelo já esta installado e da a opção de instalar caso não esteja
-                if (!installedModels.contains(modelName)) {
-                    int confirmation = JOptionPane.showConfirmDialog(null,
-                        "Modelo não instalado. Deseja instalar?",
-                        "confirmação",
-                        JOptionPane.YES_NO_OPTION
-                        );
-                    if (confirmation == JOptionPane.YES_OPTION) {
-                        JOptionPane.showMessageDialog(null,"Baixando modelo");
-
-                        //Baixa o modelo
-                        try {
-                            ollamaAPI.pullModel(modelName);
-                            installedModels.add(modelName);
-                        } catch (OllamaBaseException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (URISyntaxException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (InterruptedException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                }
-                 */
 
                 //Manda a imagem e o prompt para a AI e retorna a resposta na interface
                 request.setModel(modelName);
@@ -177,27 +134,6 @@ public class AlplacaScreen {
             }
         });
 
-
-        /* REMOVER
-        addModelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String modelName = textAddModel.getText();
-
-                /*
-                //Verifica se modelo esta no dropbox
-                if (ModelList.alplacaModels.getModelNames().contains(modelName)) {
-                    JOptionPane.showMessageDialog(null,"Modelo já esta na lista");
-
-                }else {
-                    ModelList.alplacaModels.getModelNames().add(modelName); //Mudar para adicionar ao BD futuramente (trampo do Gabriel)
-                    JOptionPane.showMessageDialog(null,"Modelo adicionado a lista");
-                    modelDropdown.setModel(new DefaultComboBoxModel(ModelList.alplacaModels.getModelNames().toArray()));
-                    modelDropdown.setSelectedItem(modelName);
-                }
-                 */
-            }
-        });
         modelDropdown.addActionListener(new ActionListener() {
             /**
              * Check whether the chosen model is installed, and suggest installation, in case it is not
@@ -226,8 +162,6 @@ public class AlplacaScreen {
                 }
             }
         });
-        */
-
     }
 
     public void createAndShowGUI() {
@@ -249,8 +183,7 @@ public class AlplacaScreen {
      * Display the supported models
      */
     protected void displaySupportedModels() {
-        supportedModels = models.getSupportedModels();
-        Arrays.sort(supportedModels);
+        Object[] supportedModels = ModelList.alplacaModels.getModelDisplayNames().toArray();
         modelDropdown.setModel(new DefaultComboBoxModel(supportedModels));
     }
 
