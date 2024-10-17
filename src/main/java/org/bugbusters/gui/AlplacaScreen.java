@@ -2,8 +2,6 @@ package org.bugbusters.gui;
 
 import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
-import io.github.ollama4j.models.response.Model;
-import io.github.ollama4j.models.response.ModelDetail;
 import io.github.ollama4j.models.response.OllamaResult;
 import org.bugbusters.database.ImageSave;
 import org.bugbusters.ollama.ModelList;
@@ -20,7 +18,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class AlplacaScreen {
     private JTextArea textResult1;
@@ -29,7 +26,6 @@ public class AlplacaScreen {
     private JLabel textFile;
     private JPanel contentPane;
     private JComboBox modelDropdown;
-    private JTextField textAddModel;
     private JButton addModelButton;
     private JComboBox dropdownOpt;
     private JTextArea textResult2;
@@ -40,10 +36,7 @@ public class AlplacaScreen {
     protected OllamaAPI ollamaAPI;
     protected OllamaRequest request;
     protected Models models;
-    /**
-     * List of model names Ollama supports
-     */
-    protected String[] supportedModels;
+    protected ModelList modelList;
 
 
     public AlplacaScreen() {
@@ -57,11 +50,11 @@ public class AlplacaScreen {
         OllamaAPI ollamaAPI = Ollama.getInstance();
         OllamaRequest request = new OllamaRequest(ollamaAPI, "");
         models = new Models(ollamaAPI);
-
-        ArrayList<String> installedModels = new ArrayList<String>();
+        modelList = new ModelList();
 
         // Add models to dropdown
         displaySupportedModels();
+        hideInstallModelTrigger();
 
         /**
          * Open dialog to upload image
@@ -104,8 +97,7 @@ public class AlplacaScreen {
             @Override
             public void actionPerformed(ActionEvent evt) {
 
-                //String modelName = modelDropdown.getSelectedItem().toString();
-                String modelName = ModelList.alplacaModels.getModelName(modelDropdown.getSelectedItem().toString());
+                String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
                 //Manda a imagem e o prompt para a AI e retorna a resposta na interface
                 request.setModel(modelName);
@@ -139,10 +131,13 @@ public class AlplacaScreen {
             }
         });
 
+        /**
+         * Install model listener
+         */
         addModelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String modelName = modelDropdown.getSelectedItem().toString();
+                String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
                 try {
 
@@ -151,7 +146,9 @@ public class AlplacaScreen {
                     } else {
 
                         JOptionPane.showMessageDialog(null, "Baixando modelo: " + modelName);
-                        ollamaAPI.pullModel(modelName);
+
+                        //  Install model
+                        models.installModel(modelName);
 
                         enableSendRequestButton();
                     }
@@ -163,6 +160,9 @@ public class AlplacaScreen {
         });
 
 
+        /**
+         * Model Dropdown changed
+         */
         modelDropdown.addActionListener(new ActionListener() {
             /**
              * Check whether the chosen model is installed, and suggest installation, in case it is not
@@ -171,20 +171,17 @@ public class AlplacaScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox trigger = (JComboBox) e.getSource();
-                String modelName = (String) trigger.getSelectedItem();
+                String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
                 try {
                     if(models.isInstalled(modelName)) {
                         enableSendRequestButton();
+                        hideInstallModelTrigger();
                     } else {
                         // Display the button to suggest installation
                         displayInstallModelTrigger();
                         // Deactivate send request button
                         disableSendRequestButton();
-
-                        // TODO: Call this from trigger listener
-                        //  Install model
-                        // models.installModel(modelName);
                     }
                 } catch (Exception err) {
                     err.printStackTrace();
@@ -212,38 +209,26 @@ public class AlplacaScreen {
      * Display the supported models
      */
     protected void displaySupportedModels() {
-        Object[] supportedModels = ModelList.alplacaModels.getModelDisplayNames().toArray();
-        modelDropdown.setModel(new DefaultComboBoxModel(supportedModels));
+        String[] supportedModels = modelList.getModelDisplayNames().toArray(new String[0]);
+        String[] title = {"Selecione um modelo"};
+        String[] both = Arrays.copyOfRange(title, 0, supportedModels.length + title.length);
+        System.arraycopy(supportedModels, 0, both, title.length, supportedModels.length);
+
+        modelDropdown.setModel(new DefaultComboBoxModel(both));
     }
 
     /**
      * Display the trigger as a suggestion to install the selected model
      */
     protected void displayInstallModelTrigger() {
-        String modelName = modelDropdown.getSelectedItem().toString();
-
-        try {
-            if (!models.isInstalled(modelName)) {
                 addModelButton.setVisible(true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
      * Hide the trigger as a suggestion to install the selected model
      */
     protected void hideInstallModelTrigger() {
-        String modelName = modelDropdown.getSelectedItem().toString();
-
-        try {
-            if (models.isInstalled(modelName)) {
                 addModelButton.setVisible(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -252,35 +237,13 @@ public class AlplacaScreen {
     protected void disableSendRequestButton() {
 
         sendButton.setEnabled(false);
-
-        String modelName = modelDropdown.getSelectedItem().toString();
-
-        boolean fileSelected = filePath != null && !filePath.isEmpty();
-
-        try {
-            if (!fileSelected || !models.isInstalled(modelName)) {
-                sendButton.setEnabled(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
      * Enable send request button
      */
     protected void enableSendRequestButton() {
-        String modelName = modelDropdown.getSelectedItem().toString();
-
-        boolean fileSelected = filePath != null && !filePath.isEmpty();
-
-        try {
-            if (fileSelected && models.isInstalled(modelName)) {
                 sendButton.setEnabled(true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 

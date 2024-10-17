@@ -5,7 +5,13 @@ public class Model {
     private String displayName;
     private double params;
 
+    public Model() {
+        //
+    }
+
     public Model(String name, String displayName, double params) {
+        this();
+
         this.name = name;
         this.displayName = displayName;
         this.params = params;
@@ -27,5 +33,17 @@ public class Model {
             return "Intermediário";
         }
         return "Pesado";
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setParams(double params) {
+        this.params = params;
     }
 }

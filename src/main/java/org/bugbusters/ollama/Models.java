@@ -21,23 +21,6 @@ public class Models {
     }
 
     /**
-     * A comprehensive list of all multimodal (vision) model names supported by Ollama.
-     * See {@link io.github.ollama4j.types.OllamaModelType}.
-     */
-    public String[] getSupportedModels() {
-        /*
-            TODO: CHANGE THIS
-         */
-        String[] multimodalModelNames = {
-            "moondream",
-            "llama2",
-            "llava",
-        };
-
-        return multimodalModelNames;
-    }
-
-    /**
      * Whether a model is multimodal (vision)
      * @param modelName
      * @return
