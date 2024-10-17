@@ -40,6 +40,11 @@ public class AlplacaScreen {
     protected OllamaAPI ollamaAPI;
     protected OllamaRequest request;
     protected Models models;
+    /**
+     * List of model names Ollama supports
+     */
+    protected String[] supportedModels;
+
 
     public AlplacaScreen() {
 
@@ -134,6 +139,30 @@ public class AlplacaScreen {
             }
         });
 
+        addModelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String modelName = modelDropdown.getSelectedItem().toString();
+
+                try {
+
+                    if (models.isInstalled(modelName)) {
+                        JOptionPane.showMessageDialog(null, "O modelo já está instalado.");
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "Baixando modelo: " + modelName);
+                        ollamaAPI.pullModel(modelName);
+
+                        enableSendRequestButton();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Erro ao verificar ou baixar o modelo.");
+                }
+            }
+        });
+
+
         modelDropdown.addActionListener(new ActionListener() {
             /**
              * Check whether the chosen model is installed, and suggest installation, in case it is not
@@ -191,27 +220,71 @@ public class AlplacaScreen {
      * Display the trigger as a suggestion to install the selected model
      */
     protected void displayInstallModelTrigger() {
-        //
+        String modelName = modelDropdown.getSelectedItem().toString();
+
+        try {
+            if (!models.isInstalled(modelName)) {
+                addModelButton.setVisible(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Hide the trigger as a suggestion to install the selected model
      */
     protected void hideInstallModelTrigger() {
-        //
+        String modelName = modelDropdown.getSelectedItem().toString();
+
+        try {
+            if (models.isInstalled(modelName)) {
+                addModelButton.setVisible(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Disable send request button
      */
     protected void disableSendRequestButton() {
-        //
+
+        sendButton.setEnabled(false);
+
+        String modelName = modelDropdown.getSelectedItem().toString();
+
+        boolean fileSelected = filePath != null && !filePath.isEmpty();
+
+        try {
+            if (!fileSelected || !models.isInstalled(modelName)) {
+                sendButton.setEnabled(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Enable send request button
      */
     protected void enableSendRequestButton() {
-        //
+        String modelName = modelDropdown.getSelectedItem().toString();
+
+        boolean fileSelected = filePath != null && !filePath.isEmpty();
+
+        try {
+            if (fileSelected && models.isInstalled(modelName)) {
+                sendButton.setEnabled(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void installModel(String modelName) throws OllamaBaseException, IOException, URISyntaxException, InterruptedException {
+        ollamaAPI.pullModel(modelName);
     }
 }
