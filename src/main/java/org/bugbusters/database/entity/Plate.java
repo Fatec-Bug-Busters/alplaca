@@ -30,6 +30,9 @@ public class Plate {
     @JoinColumn(name = "id_country",nullable = false)
     private Country country;
 
+    @Column(name ="id_photo", nullable = false)
+    private int idPhoto;
+
     //Getters and Setters
 
     public String getColor() {
@@ -86,5 +89,13 @@ public class Plate {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public int getIdPhoto() {
+        return idPhoto;
+    }
+
+    public void setIdPhoto(int idPhoto) {
+        this.idPhoto = idPhoto;
     }
 }
