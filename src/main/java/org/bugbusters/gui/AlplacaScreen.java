@@ -5,6 +5,8 @@ import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.Model;
 import io.github.ollama4j.models.response.ModelDetail;
 import io.github.ollama4j.models.response.OllamaResult;
+import org.bugbusters.database.ImageSave;
+import org.bugbusters.ollama.ModelList;
 
 import org.bugbusters.ollama.Models;
 import org.bugbusters.ollama.Ollama;
@@ -21,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AlplacaScreen {
-    private JTextArea textResult;
+    private JTextArea textResult1;
     private JButton openButton;
     private JButton sendButton;
     private JLabel textFile;
@@ -29,6 +31,9 @@ public class AlplacaScreen {
     private JComboBox modelDropdown;
     private JTextField textAddModel;
     private JButton addModelButton;
+    private JComboBox dropdownOpt;
+    private JTextArea textResult2;
+    private JButton enviarBDButton;
     private String fileName;
     private String filePath;
 
@@ -46,6 +51,14 @@ public class AlplacaScreen {
         //JTextArea Line Break
         textResult.setLineWrap(true);
         textResult.setWrapStyleWord(true);
+        textResult1.setLineWrap(true);
+        textResult1.setWrapStyleWord(true);
+        textResult2.setLineWrap(true);
+        textResult2.setWrapStyleWord(true);
+        OllamaAPI ollamaAPI = Ollama.getInstance();
+        OllamaRequest request = new OllamaRequest(ollamaAPI, "");
+
+        ArrayList<String> installedModels = new ArrayList<String>();
 
         ollamaAPI = Ollama.getInstance();
         request = new OllamaRequest(ollamaAPI, "");
@@ -53,6 +66,17 @@ public class AlplacaScreen {
 
         // Add models to dropdown
         displaySupportedModels();
+
+        // display supported models
+        modelDropdown.setModel(new DefaultComboBoxModel(ModelList.alplacaModels.getModelDisplayNames().toArray()));
+        try {
+            List<Model> models = request.listAvailableModels();
+            models.forEach(model -> installedModels.add(model.getModelName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // end display supported models
+
 
         openButton.addActionListener(new ActionListener() {
             @Override
@@ -71,11 +95,27 @@ public class AlplacaScreen {
                 }
             }
         });
+
+        ArrayList<String> showInfo = new ArrayList<String>() {{
+            add("Localidade");
+            add("Número da placa");
+        }};
+        dropdownOpt.setModel(new DefaultComboBoxModel(showInfo.toArray()));
+
+        dropdownOpt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedItem = (String) dropdownOpt.getSelectedItem();
+            }
+        });
+
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
 
-                String modelName = modelDropdown.getSelectedItem().toString();
+
+                //String modelName = modelDropdown.getSelectedItem().toString();
+                String modelName = ModelList.alplacaModels.getModelName(modelDropdown.getSelectedItem().toString());
 
                 /*
                 //Verifica se o modelo já esta installado e da a opção de instalar caso não esteja
@@ -107,22 +147,38 @@ public class AlplacaScreen {
 
                 //Manda a imagem e o prompt para a AI e retorna a resposta na interface
                 request.setModel(modelName);
+
+                ImageSave.save(filePath);
+                OllamaAPI ollamaAPI = Ollama.getInstance();
+                OllamaRequest request = new OllamaRequest(ollamaAPI, "moondream");
+
                 OllamaResult result;
                 try {
                     File[] images = {
                         new File(filePath)
                     };
-                    result = request.syncWithImageFilesRequest(
-                        "Answer me without an explanation what's the license plate number, the color of the car and where is it from?",
-                        images
-                    );
-                    textResult.setText(result.getResponse());
+                    String selectedItem = (String) dropdownOpt.getSelectedItem();
+                    if(selectedItem.equals("Localidade")){
+                        result = request.syncWithImageFilesRequest(
+                            "This plate has a text on top of it, this is where it's from, show me only it",
+                            images
+                        );
+                        textResult1.setText(result.getResponse());
+                    } else if(selectedItem.equals("Número da placa")) {
+                        result = request.syncWithImageFilesRequest(
+                            "This car plate model is: 3 letters - 4 numbers. Show me only the numbers and letters of this plate",
+                            images
+                        );
+                        textResult2.setText(result.getResponse());
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
+
+        /* REMOVER
         addModelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,13 +186,13 @@ public class AlplacaScreen {
 
                 /*
                 //Verifica se modelo esta no dropbox
-                if (listModels.contains(modelName)) {
+                if (ModelList.alplacaModels.getModelNames().contains(modelName)) {
                     JOptionPane.showMessageDialog(null,"Modelo já esta na lista");
 
                 }else {
-                    listModels.add(modelName); //Mudar para adicionar ao BD futuramente (trampo do Gabriel)
+                    ModelList.alplacaModels.getModelNames().add(modelName); //Mudar para adicionar ao BD futuramente (trampo do Gabriel)
                     JOptionPane.showMessageDialog(null,"Modelo adicionado a lista");
-                    modelDropdown.setModel(new DefaultComboBoxModel(listModels.toArray()));
+                    modelDropdown.setModel(new DefaultComboBoxModel(ModelList.alplacaModels.getModelNames().toArray()));
                     modelDropdown.setSelectedItem(modelName);
                 }
                  */
@@ -170,6 +226,8 @@ public class AlplacaScreen {
                 }
             }
         });
+        */
+
     }
 
     public void createAndShowGUI() {
