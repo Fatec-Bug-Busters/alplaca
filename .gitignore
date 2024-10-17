@@ -1,6 +1,8 @@
 # https://github.com/github/gitignore
 # https://gist.github.com/WesleyGoncalves/aa59b4b49f1388d1ffc9bece1bfcff2a
 
+./src/main/java/org/bugbusters/database/images
+
 #####################
 ####### JAVA ########
 #####################
