@@ -77,13 +77,6 @@ public class OllamaRequest {
     }
 
     /**
-     * List the available models
-     */
-    public List<Model> listAvailableModels() throws OllamaBaseException, IOException, URISyntaxException, InterruptedException {
-        return this.api.listModels();
-    }
-
-    /**
      * Test the connection to the Ollama server
      *
      * @return
