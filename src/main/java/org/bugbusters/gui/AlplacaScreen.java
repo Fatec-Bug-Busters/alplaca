@@ -5,6 +5,7 @@ import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.Model;
 import io.github.ollama4j.models.response.OllamaResult;
 import org.bugbusters.database.ImageSave;
+import org.bugbusters.ollama.ModelList;
 import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
@@ -45,14 +46,7 @@ public class AlplacaScreen {
 
         ArrayList<String> installedModels = new ArrayList<String>();
 
-
-        //Fazer isso pelo BD depois (trampo do Gabriel)
-        ArrayList<String> listModels = new ArrayList<String>() {{
-            add("moondream");
-            add("llava-phi3");
-            add("llava-llama3");
-        }};
-        modelDropdown.setModel(new DefaultComboBoxModel(listModels.toArray()));
+        modelDropdown.setModel(new DefaultComboBoxModel(ModelList.alplacaModels.getModelDisplayNames().toArray()));
 
         try {
             List<Model> models = request.listAvailableModels();
@@ -98,7 +92,8 @@ public class AlplacaScreen {
             public void actionPerformed(ActionEvent evt) {
 
 
-                String modelName = modelDropdown.getSelectedItem().toString();
+                //String modelName = modelDropdown.getSelectedItem().toString();
+                String modelName = ModelList.alplacaModels.getModelName(modelDropdown.getSelectedItem().toString());
 
                 //Verifica se o modelo já esta installado e da a opção de instalar caso não esteja
                 if (!installedModels.contains(modelName)) {
@@ -157,23 +152,27 @@ public class AlplacaScreen {
                 }
             }
         });
+
+        /* REMOVER
         addModelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String modelName = textAddModel.getText();
 
                 //Verifica se modelo esta no dropbox
-                if (listModels.contains(modelName)) {
+                if (ModelList.alplacaModels.getModelNames().contains(modelName)) {
                     JOptionPane.showMessageDialog(null,"Modelo já esta na lista");
 
                 }else {
-                    listModels.add(modelName); //Mudar para adicionar ao BD futuramente (trampo do Gabriel)
+                    ModelList.alplacaModels.getModelNames().add(modelName); //Mudar para adicionar ao BD futuramente (trampo do Gabriel)
                     JOptionPane.showMessageDialog(null,"Modelo adicionado a lista");
-                    modelDropdown.setModel(new DefaultComboBoxModel(listModels.toArray()));
+                    modelDropdown.setModel(new DefaultComboBoxModel(ModelList.alplacaModels.getModelNames().toArray()));
                     modelDropdown.setSelectedItem(modelName);
                 }
             }
         });
+        */
+
     }
 
     public void createAndShowGUI() {
