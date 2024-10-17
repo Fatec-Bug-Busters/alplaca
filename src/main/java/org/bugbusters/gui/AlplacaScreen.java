@@ -108,7 +108,7 @@ public class AlplacaScreen {
                 }
                  */
 
-                //Manda a imagem e o prompt para a AI e retorna a resposta na interface
+                
                 request.setModel(modelName);
                 OllamaResult result;
                 try {
@@ -129,17 +129,17 @@ public class AlplacaScreen {
         addModelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String modelName = modelDropdown.getSelectedItem().toString(); // ou textAddModel.getText(), conforme o campo correto
+                String modelName = modelDropdown.getSelectedItem().toString();
 
                 try {
-                    // Verifica se o modelo já está instalado
+
                     if (models.isInstalled(modelName)) {
                         JOptionPane.showMessageDialog(null, "O modelo já está instalado.");
                     } else {
-                        // Baixa o modelo, pois não está instalado
+
                         JOptionPane.showMessageDialog(null, "Baixando modelo: " + modelName);
-                        ollamaAPI.pullModel(modelName); // Instala o modelo
-                        // Após a instalação, habilita o botão enviar se um arquivo também foi selecionado
+                        ollamaAPI.pullModel(modelName);
+
                         enableSendRequestButton();
                     }
                 } catch (Exception ex) {
@@ -158,9 +158,9 @@ public class AlplacaScreen {
 
                 try {
                     if (models.isInstalled(modelName)) {
-                        enableSendRequestButton(); // Habilita o botão caso o modelo esteja instalado e o arquivo selecionado
+                        enableSendRequestButton();
                     } else {
-                        disableSendRequestButton(); // Desabilita o botão caso o modelo não esteja instalado
+                        disableSendRequestButton();
                     }
                 } catch (Exception err) {
                     err.printStackTrace();
@@ -199,10 +199,9 @@ public class AlplacaScreen {
     protected void displayInstallModelTrigger() {
         String modelName = modelDropdown.getSelectedItem().toString();
 
-        // Verifica se o modelo está instalado
         try {
             if (!models.isInstalled(modelName)) {
-                addModelButton.setVisible(true); // Mostra o botão "Instalar"
+                addModelButton.setVisible(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,10 +214,9 @@ public class AlplacaScreen {
     protected void hideInstallModelTrigger() {
         String modelName = modelDropdown.getSelectedItem().toString();
 
-        // Verifica se o modelo está instalado
         try {
             if (models.isInstalled(modelName)) {
-                addModelButton.setVisible(false); // Esconde o botão "Instalar"
+                addModelButton.setVisible(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -231,16 +229,14 @@ public class AlplacaScreen {
     protected void disableSendRequestButton() {
 
         sendButton.setEnabled(false);
-        
+
         String modelName = modelDropdown.getSelectedItem().toString();
 
-        // Verifica se o arquivo foi selecionado
         boolean fileSelected = filePath != null && !filePath.isEmpty();
 
-        // Verifica se o modelo está instalado
         try {
             if (!fileSelected || !models.isInstalled(modelName)) {
-                sendButton.setEnabled(false); // Desabilita o botão "Enviar"
+                sendButton.setEnabled(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -253,13 +249,11 @@ public class AlplacaScreen {
     protected void enableSendRequestButton() {
         String modelName = modelDropdown.getSelectedItem().toString();
 
-        // Verifica se o arquivo foi selecionado
         boolean fileSelected = filePath != null && !filePath.isEmpty();
 
-        // Verifica se o modelo está instalado
         try {
             if (fileSelected && models.isInstalled(modelName)) {
-                sendButton.setEnabled(true); // Habilita o botão "Enviar"
+                sendButton.setEnabled(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
