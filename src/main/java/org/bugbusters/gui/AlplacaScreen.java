@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class AlplacaScreen {
     private JTextArea textResult1;
     private JButton openButton;
@@ -140,15 +141,17 @@ public class AlplacaScreen {
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
                 try {
-
                     if (models.isInstalled(modelName)) {
                         JOptionPane.showMessageDialog(null, "O modelo já está instalado.");
                     } else {
+                        // Show installing message
+                        showInstallingMessage(modelName);
 
-                        JOptionPane.showMessageDialog(null, "Baixando modelo: " + modelName);
-
-                        //  Install model
+                        // Install model
                         models.installModel(modelName);
+
+                        // Show installation complete message
+                        showInstallationCompleteMessage(modelName);
 
                         enableSendRequestButton();
                     }
@@ -250,4 +253,17 @@ public class AlplacaScreen {
     public void installModel(String modelName) throws OllamaBaseException, IOException, URISyntaxException, InterruptedException {
         ollamaAPI.pullModel(modelName);
     }
+
+    protected void showInstallingMessage(String modelName) {
+        JOptionPane.showMessageDialog(null, "Instalando o modelo: " + modelName + ". Por favor, aguarde...");
+    }
+
+    /**
+     * Show a message that the model installation is complete
+     */
+    protected void showInstallationCompleteMessage(String modelName) {
+        JOptionPane.showMessageDialog(null, "Instalação do modelo " + modelName + " concluída com sucesso!");
+    }
+
+
 }
