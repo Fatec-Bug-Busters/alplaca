@@ -94,7 +94,7 @@ public class AlplacaScreen {
         /**
          * Send request to the API
          */
-        sendButton.addActionListener(new ActionListener() {  
+        sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
 
@@ -154,6 +154,10 @@ public class AlplacaScreen {
                         // Show installation complete message
                         showInstallationCompleteMessage(modelName);
 
+                        // Show installation complete message
+                        showInstallationCompleteMessage(modelName);
+
+                        hideInstallModelTrigger();
                         enableSendRequestButton();
                     }
                 } catch (Exception ex) {
@@ -174,7 +178,6 @@ public class AlplacaScreen {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox trigger = (JComboBox) e.getSource();
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
                 try {
