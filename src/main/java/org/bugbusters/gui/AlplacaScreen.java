@@ -94,18 +94,20 @@ public class AlplacaScreen {
         /**
          * Send request to the API
          */
-        sendButton.addActionListener(new ActionListener() {
+        sendButton.addActionListener(new ActionListener() {  // O botão correto é o Exibir Informações
             @Override
             public void actionPerformed(ActionEvent evt) {
 
+                // Obter o modelo selecionado no dropdown
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
-                //Manda a imagem e o prompt para a AI e retorna a resposta na interface
-                request.setModel(modelName);
+                // Manda a imagem e o prompt para a IA e retorna a resposta na interface
+                request.setModel(modelName);  // Agora usa o modelo selecionado corretamente
 
+                // Salvando a imagem
                 ImageSave.save(filePath);
+
                 OllamaAPI ollamaAPI = Ollama.getInstance();
-                OllamaRequest request = new OllamaRequest(ollamaAPI, "moondream");
 
                 OllamaResult result;
                 try {
@@ -113,15 +115,15 @@ public class AlplacaScreen {
                         new File(filePath)
                     };
                     String selectedItem = (String) dropdownOpt.getSelectedItem();
-                    if(selectedItem.equals("Localidade")){
+                    if (selectedItem.equals("Localidade")) {
                         result = request.syncWithImageFilesRequest(
                             "This plate has a text on top of it, this is where it's from, show me only it",
                             images
                         );
                         textResult1.setText(result.getResponse());
-                    } else if(selectedItem.equals("Número da placa")) {
+                    } else if (selectedItem.equals("Número da placa")) {
                         result = request.syncWithImageFilesRequest(
-                            "This car plate model is: 3 letters - 4 numbers. Show me only the numbers and letters of this plate",
+                            "This car plate model is: 3 letters - 1 number - 1 letter - 2 numbers. Show me only the numbers and letters of this plate",
                             images
                         );
                         textResult2.setText(result.getResponse());
@@ -131,7 +133,6 @@ public class AlplacaScreen {
                 }
             }
         });
-
         /**
          * Install model listener
          */
