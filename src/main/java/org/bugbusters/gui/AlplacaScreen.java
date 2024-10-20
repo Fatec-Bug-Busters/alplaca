@@ -94,17 +94,17 @@ public class AlplacaScreen {
         /**
          * Send request to the API
          */
-        sendButton.addActionListener(new ActionListener() {  // O botão correto é o Exibir Informações
+        sendButton.addActionListener(new ActionListener() {  
             @Override
             public void actionPerformed(ActionEvent evt) {
 
-                // Obter o modelo selecionado no dropdown
+
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
 
-                // Manda a imagem e o prompt para a IA e retorna a resposta na interface
-                request.setModel(modelName);  // Agora usa o modelo selecionado corretamente
 
-                // Salvando a imagem
+                request.setModel(modelName);
+
+
                 ImageSave.save(filePath);
 
                 OllamaAPI ollamaAPI = Ollama.getInstance();
