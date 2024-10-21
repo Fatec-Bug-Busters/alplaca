@@ -108,7 +108,7 @@ Soft skills desenvolvidas
 
 ### Gráfico Burndown
 
-![Burndown](images/BurndownS1.png)
+![Burndown](images/Burndown2.png)
 
 ### Backlog do Produto
 
