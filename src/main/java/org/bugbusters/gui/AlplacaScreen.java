@@ -49,7 +49,7 @@ public class AlplacaScreen {
         textResult2.setWrapStyleWord(true);
 
         OllamaAPI ollamaAPI = Ollama.getInstance();
-        OllamaRequest request = new OllamaRequest(ollamaAPI, "");
+        OllamaRequest request = new OllamaRequest(ollamaAPI);
         models = new Models(ollamaAPI);
         modelList = new ModelList();
 
@@ -98,16 +98,10 @@ public class AlplacaScreen {
             @Override
             public void actionPerformed(ActionEvent evt) {
 
-
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
-
-
                 request.setModel(modelName);
 
-
                 ImageSave.save(filePath);
-
-                OllamaAPI ollamaAPI = Ollama.getInstance();
 
                 OllamaResult result;
                 try {
@@ -133,6 +127,7 @@ public class AlplacaScreen {
                 }
             }
         });
+
         /**
          * Install model listener
          */
