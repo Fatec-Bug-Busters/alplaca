@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 
 public class AlplacaScreen {
+    JFrame mainFrame;
     private JTextArea textResult1;
     private JButton openButton;
     private JButton sendButton;
@@ -31,6 +32,7 @@ public class AlplacaScreen {
     private JComboBox dropdownOpt;
     private JTextArea textResult2;
     private JButton enviarBDButton;
+    private JButton detalheButton;
     private String fileName;
     private String filePath;
 
@@ -41,6 +43,7 @@ public class AlplacaScreen {
 
 
     public AlplacaScreen() {
+        mainFrame = new JFrame("Alplaca");
 
         //JTextArea Line Break
         textResult1.setLineWrap(true);
@@ -190,14 +193,20 @@ public class AlplacaScreen {
                 }
             }
         });
+        detalheButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TelaDetalhes telaDetalhes = new TelaDetalhes(mainFrame);
+                telaDetalhes.createAndShowGUI();
+            }
+        });
     }
 
     public void createAndShowGUI() {
-        JFrame frame = new JFrame("Alplaca");
-        frame.setContentPane(contentPane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        mainFrame.setContentPane(contentPane);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.pack();
+        mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
