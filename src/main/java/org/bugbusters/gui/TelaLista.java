@@ -68,7 +68,13 @@ public class TelaLista {
             super(checkBox);
             button = new JButton("Ver");
             button.addActionListener(e -> {
-                goBack();
+                System.out.println(e);
+                // goBack();
+                // TODO: Load plate ...
+//                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+//
+//                Rectangle windowSize = mainFrame.getBounds();
+//                telaDetalhes.createAndShowGUI(windowSize);
             });
         }
 
@@ -96,10 +102,11 @@ public class TelaLista {
         }
     }
 
-    public void createAndShowGUI() {
+    public void createAndShowGUI(Rectangle windowSize) {
         mainFrame.setContentPane(contentPane);
         mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        mainFrame.pack();
+        // mainFrame.pack();
+        mainFrame.setSize(windowSize.width, windowSize.height);
         mainFrame.setVisible(true);
 
         /**
