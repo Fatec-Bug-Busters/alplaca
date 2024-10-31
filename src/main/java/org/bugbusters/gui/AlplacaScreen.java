@@ -198,11 +198,14 @@ public class AlplacaScreen {
         detalheButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Load plate ...
-                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+                TelaLista telaLista = new TelaLista(mainFrame);
+                telaLista.createAndShowGUI();
 
-                Rectangle windowSize = mainFrame.getBounds();
-                telaDetalhes.createAndShowGUI(windowSize);
+                // TODO: Load plate ...
+//                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+//
+//                Rectangle windowSize = mainFrame.getBounds();
+//                telaDetalhes.createAndShowGUI(windowSize);
             }
         });
     }
