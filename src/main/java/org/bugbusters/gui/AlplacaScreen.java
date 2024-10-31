@@ -4,6 +4,7 @@ import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.OllamaResult;
 import org.bugbusters.database.ImageSave;
+import org.bugbusters.database.entity.Plate;
 import org.bugbusters.ollama.ModelList;
 
 import org.bugbusters.ollama.Models;
@@ -11,6 +12,7 @@ import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -195,8 +197,11 @@ public class AlplacaScreen {
         detalheButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TelaDetalhes telaDetalhes = new TelaDetalhes(mainFrame);
-                telaDetalhes.createAndShowGUI();
+                // TODO: Load plate ...
+                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+
+                Rectangle windowSize = mainFrame.getBounds();
+                telaDetalhes.createAndShowGUI(windowSize);
             }
         });
     }
