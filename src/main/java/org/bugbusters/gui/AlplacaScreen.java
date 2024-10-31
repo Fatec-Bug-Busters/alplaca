@@ -19,7 +19,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public class AlplacaScreen {
     JFrame mainFrame;
     private JTextArea textResult1;

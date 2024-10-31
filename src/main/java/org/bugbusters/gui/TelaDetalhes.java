@@ -5,12 +5,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 
 public class TelaDetalhes {
     private JFrame mainFrame;
     private JFrame prevScreen;
     private JPanel contentPane;
     private JButton voltarButton;
+    private JTable tablePlacas;
 
     public TelaDetalhes(JFrame prevScreen) {
         mainFrame = new JFrame("Alplaca");
@@ -18,6 +23,7 @@ public class TelaDetalhes {
         // Hide previous screen
         this.prevScreen = prevScreen;
         prevScreen.setVisible(false);
+
 
         /**
          * Back button
@@ -28,6 +34,66 @@ public class TelaDetalhes {
                 goBack();
             }
         });
+
+        createTable();
+    }
+
+    public void createTable() {
+        Object[][] data = {{"1", "ABC-1234"}, {"2", "ZXC-9955"}};
+
+        tablePlacas.setModel(new DefaultTableModel(
+            data,
+            new String[]{"ID", "Placa", "Detalhes"}
+        ));
+
+        tablePlacas.getColumn("Detalhes").setCellRenderer((TableCellRenderer) new ButtonRenderer());
+        tablePlacas.getColumn("Detalhes").setCellEditor(new ButtonEditor(new JCheckBox()));
+    }
+
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+        public ButtonRenderer() {
+            setText("Ver");
+        }
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+        private JButton button;
+        private boolean clicked;
+
+        public ButtonEditor(JCheckBox checkBox) {
+            super(checkBox);
+            button = new JButton("Ver");
+            button.addActionListener(e -> {
+                goBack();
+            });
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            clicked = true;
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            clicked = false;
+            return "Ver";
+        }
+
+        @Override
+        public boolean stopCellEditing() {
+            clicked = false;
+            return super.stopCellEditing();
+        }
+
+        @Override
+        protected void fireEditingStopped() {
+            super.fireEditingStopped();
+        }
     }
 
     public void createAndShowGUI() {
@@ -53,11 +119,4 @@ public class TelaDetalhes {
         mainFrame.dispose();
         prevScreen.setVisible(true);
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            TelaDetalhes tela = new TelaDetalhes();
-//            tela.createAndShowGUI();
-//        });
-//    }
 }
