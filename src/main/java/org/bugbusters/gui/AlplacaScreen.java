@@ -195,7 +195,7 @@ public class AlplacaScreen {
         detalheButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TelaDetalhes telaDetalhes = new TelaDetalhes(mainFrame);
+                TelaLista telaDetalhes = new TelaLista(mainFrame);
                 telaDetalhes.createAndShowGUI();
             }
         });

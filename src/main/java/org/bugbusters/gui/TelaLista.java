@@ -10,14 +10,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 
-public class TelaDetalhes {
+public class TelaLista {
     private JFrame mainFrame;
     private JFrame prevScreen;
     private JPanel contentPane;
     private JButton voltarButton;
     private JTable tablePlacas;
 
-    public TelaDetalhes(JFrame prevScreen) {
+    public TelaLista(JFrame prevScreen) {
         mainFrame = new JFrame("Alplaca");
 
         // Hide previous screen
