@@ -111,7 +111,9 @@ public class AlplacaScreen {
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
                 request.setModel(modelName);
 
-                ImageSave.save(filePath);
+
+                //Salva imagem, mover para o botão Enviar
+                //ImageSave.save(filePath);
 
                 OllamaResult result;
                 try {
@@ -121,7 +123,7 @@ public class AlplacaScreen {
                     String selectedItem = (String) dropdownOpt.getSelectedItem();
                     if (selectedItem.equals("Localidade")) {
                         result = request.syncWithImageFilesRequest(
-                            "This plate has a text on top of it, this is where it's from, show me only it",
+                            "where is this license plate from? answer only the location without any additional text",
                             images
                         );
                         textResultLoc.setText(result.getResponse());
@@ -133,13 +135,13 @@ public class AlplacaScreen {
                         textResultIdentPla.setText(result.getResponse());
                     } else if (selectedItem.equals("Cor da placa")) {
                         result = request.syncWithImageFilesRequest(
-                            "Prompt Aqui!!!",
+                            "what color is the letters in the license plate? answer only the color without any additional text",
                             images
                         );
                         textResultCorPla.setText(result.getResponse());
                     } else if (selectedItem.equals("Cor do veículo")) {
                         result = request.syncWithImageFilesRequest(
-                            "Prompt Aqui!!!",
+                            "what color is the vehicle? answer only the color without any additional text",
                             images
                         );
                         textResultCorVei.setText(result.getResponse());
@@ -235,6 +237,8 @@ public class AlplacaScreen {
 
     public void createAndShowGUI() {
         mainFrame.setContentPane(contentPane);
+        Image image = Toolkit.getDefaultToolkit().getImage("src/main/java/org/bugbusters/gui/icon2.png");
+        mainFrame.setIconImage(image);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack();
         mainFrame.setVisible(true);
