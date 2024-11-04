@@ -1,11 +1,15 @@
 package org.bugbusters.gui;
 
+import org.bugbusters.database.entity.Plate;
+import org.bugbusters.database.hibernate.HibernateService;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.*;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -16,6 +20,7 @@ public class TelaLista {
     private JPanel contentPane;
     private JButton voltarButton;
     private JTable tablePlacas;
+    public java.util.List plateList;
 
     public TelaLista(JFrame prevScreen) {
         mainFrame = new JFrame("Alplaca");
@@ -39,7 +44,17 @@ public class TelaLista {
     }
 
     public void createTable() {
-        Object[][] data = {{"1", "ABC-1234"}, {"2", "ZXC-9955"}};
+        HibernateService.openSession();
+        this.plateList = HibernateService.findByCondition("plates","id > 0",Plate.class);
+
+        Object[][] data = new Object[plateList.size()][3];
+        for (int i = 0; i < plateList.size(); i++) {
+            Plate plate = (Plate) plateList.get(i);
+            data[i][0] = plate.getId();
+            data[i][1] = plate.getIdentification();
+            data[i][2] = "Detalhes";
+        }
+        HibernateService.closeSession();
 
         tablePlacas.setModel(new DefaultTableModel(
             data,
@@ -63,6 +78,7 @@ public class TelaLista {
     class ButtonEditor extends DefaultCellEditor {
         private JButton button;
         private boolean clicked;
+        private  int selectedRow;
 
         public ButtonEditor(JCheckBox checkBox) {
             super(checkBox);
@@ -71,10 +87,12 @@ public class TelaLista {
                 System.out.println(e);
                 // goBack();
                 // TODO: Load plate ...
-//                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
-//
-//                Rectangle windowSize = mainFrame.getBounds();
-//                telaDetalhes.createAndShowGUI(windowSize);
+
+             Plate plate = (Plate) plateList.get(selectedRow);
+             TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+
+                Rectangle windowSize = mainFrame.getBounds();
+                telaDetalhes.createAndShowGUI(windowSize);
             });
         }
 

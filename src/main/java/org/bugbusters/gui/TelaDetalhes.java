@@ -2,6 +2,7 @@ package org.bugbusters.gui;
 
 import org.bugbusters.database.entity.Plate;
 import org.bugbusters.database.entity.Vehicle;
+import org.bugbusters.database.hibernate.HibernateService;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,7 +34,8 @@ public class TelaDetalhes {
     private JLabel lblPhoto;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen) {
-        this.plate = plate;
+        HibernateService.openSession();
+        this.plate = HibernateService.findById(plate.getId(), Plate.class);
         mainFrame = new JFrame("Alplaca");
 
         // Hide previous screen

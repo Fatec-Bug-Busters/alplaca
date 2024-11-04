@@ -199,8 +199,13 @@ public class AlplacaScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TelaLista telaLista = new TelaLista(mainFrame);
-                Rectangle windowSize = mainFrame.getBounds();
-                telaLista.createAndShowGUI(windowSize);
+                telaLista.createAndShowGUI(new Rectangle(800, 600));
+
+                // TODO: Load plate ...
+//                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+//
+//                Rectangle windowSize = mainFrame.getBounds();
+//                telaDetalhes.createAndShowGUI(windowSize);
             }
         });
     }

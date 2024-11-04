@@ -16,32 +16,16 @@ public class Plate {
     @Column(name = "location", length = 127)
     private String location;
 
-    @Column(name = "qrcode")
-    private String qrcode;
 
     @Column(name = "color", length = 63)
     private String color;
 
-    @ManyToOne
-    @JoinColumn(name = "id_vehicle", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_vehicle", nullable = false,unique = true)
     private Vehicle vehicle;
-
-    @ManyToOne
-    @JoinColumn(name = "id_country",nullable = false)
-    private Country country;
-
-    @Column(name ="id_photo", nullable = false)
-    private int idPhoto;
 
     //Getters and Setters
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public int getId() {
         return id;
@@ -67,12 +51,12 @@ public class Plate {
         this.location = location;
     }
 
-    public String getQrcode() {
-        return qrcode;
+    public String getColor() {
+        return color;
     }
 
-    public void setQrcode(String qrcode) {
-        this.qrcode = qrcode;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Vehicle getVehicle() {
@@ -81,21 +65,5 @@ public class Plate {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public int getIdPhoto() {
-        return idPhoto;
-    }
-
-    public void setIdPhoto(int idPhoto) {
-        this.idPhoto = idPhoto;
     }
 }

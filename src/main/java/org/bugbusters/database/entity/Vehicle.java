@@ -14,7 +14,7 @@ public class Vehicle {
     @Column(name = "color", length = 63)
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
 

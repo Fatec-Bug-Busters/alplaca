@@ -35,7 +35,6 @@
         <!-- Mappings -->
         <mapping class="org.bugbusters.database.entity.Plate"/>
         <mapping class="org.bugbusters.database.entity.Category"/>
-        <mapping class="org.bugbusters.database.entity.Country"/>
         <mapping class="org.bugbusters.database.entity.Vehicle"/>
     </session-factory>
 </hibernate-configuration>
