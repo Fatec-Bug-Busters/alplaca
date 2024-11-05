@@ -34,8 +34,9 @@ public class TelaDetalhes {
     private JLabel lblPhoto;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen) {
-        HibernateService.openSession();
-        this.plate = HibernateService.findById(plate.getId(), Plate.class);
+        // HibernateService.openSession();
+        // this.plate = HibernateService.findById(plate.getId(), Plate.class);
+        this.plate = plate;
         mainFrame = new JFrame("Alplaca");
 
         // Hide previous screen

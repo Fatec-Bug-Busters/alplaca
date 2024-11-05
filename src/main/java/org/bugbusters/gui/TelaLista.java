@@ -20,7 +20,7 @@ public class TelaLista {
     private JPanel contentPane;
     private JButton voltarButton;
     private JTable tablePlacas;
-    public java.util.List plateList;
+    public List plateList;
 
     public TelaLista(JFrame prevScreen) {
         mainFrame = new JFrame("Alplaca");
@@ -63,6 +63,7 @@ public class TelaLista {
 
         tablePlacas.getColumn("Detalhes").setCellRenderer((TableCellRenderer) new ButtonRenderer());
         tablePlacas.getColumn("Detalhes").setCellEditor(new ButtonEditor(new JCheckBox()));
+
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -78,18 +79,15 @@ public class TelaLista {
     class ButtonEditor extends DefaultCellEditor {
         private JButton button;
         private boolean clicked;
-        private  int selectedRow;
+        private int selectedRow;
 
         public ButtonEditor(JCheckBox checkBox) {
             super(checkBox);
             button = new JButton("Ver");
             button.addActionListener(e -> {
-                System.out.println(e);
-                // goBack();
-                // TODO: Load plate ...
-
-             Plate plate = (Plate) plateList.get(selectedRow);
-             TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+                // Plate plate = plateList.get(selectedRow);
+                Plate plate = (Plate) plateList.stream().toArray()[selectedRow];
+                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
 
                 Rectangle windowSize = mainFrame.getBounds();
                 telaDetalhes.createAndShowGUI(windowSize);
@@ -98,6 +96,7 @@ public class TelaLista {
 
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            this.selectedRow = row;
             clicked = true;
             return button;
         }
