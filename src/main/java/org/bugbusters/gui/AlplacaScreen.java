@@ -123,31 +123,31 @@ public class AlplacaScreen {
                     String selectedItem = (String) dropdownOpt.getSelectedItem();
                     if (selectedItem.equals("Localidade")) {
                         result = request.syncWithImageFilesRequest(
-                            "where is this license plate from? answer only the location without any additional text",
+                            "Identify the location (city or state) linked to this license plate. Return only the location without any additional text",
                             images
                         );
                         textResultLoc.setText(result.getResponse());
                     } else if (selectedItem.equals("Identificação da placa")) {
                         result = request.syncWithImageFilesRequest(
-                            "This car plate model is: 3 letters - 1 number - 1 letter - 2 numbers. Show me only the numbers and letters of this plate",
+                            "This car plate model is: 3 letters - 1 number - 1 letter - 2 numbers or 3 letters - 4 numbers. Rerurn only the numbers and letters of this plate",
                             images
                         );
                         textResultIdentPla.setText(result.getResponse());
                     } else if (selectedItem.equals("Cor da placa")) {
                         result = request.syncWithImageFilesRequest(
-                            "what color is the letters in the license plate? answer only the color without any additional text",
+                            "What color is the letters in the license plate? return only the color without any additional text",
                             images
                         );
                         textResultCorPla.setText(result.getResponse());
                     } else if (selectedItem.equals("Cor do veículo")) {
                         result = request.syncWithImageFilesRequest(
-                            "what color is the vehicle? answer only the color without any additional text",
+                            "What color is the vehicle? return only the color without any additional text",
                             images
                         );
                         textResultCorVei.setText(result.getResponse());
                     } else if (selectedItem.equals("Categoria do Veículo")) {
                         result = request.syncWithImageFilesRequest(
-                            "Prompt Aqui!!!",
+                            "What type of vehicle is this (e.g., car, truck, motorcycle) based on the image? Return only the type without  any additional text.",
                             images
                         );
                         textResultCateVei.setText(result.getResponse());
