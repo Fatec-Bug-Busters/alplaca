@@ -2,9 +2,11 @@ package org.bugbusters.database.entity;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "vehicles")
+@Proxy(lazy = false)  // Ensure no lazy proxy creation for this entity
 public class Vehicle {
 
     @Id
@@ -14,7 +16,7 @@ public class Vehicle {
     @Column(name = "color", length = 63)
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
 

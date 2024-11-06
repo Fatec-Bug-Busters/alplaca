@@ -13,7 +13,7 @@ public class ImageSave {
     public static void save(String filePath) {
 
         // Directory where the image will be saved
-        String outputDir = "src/main/java/org/bugbusters/database/images/";   // Ex: "C:/images/saved/"
+        String outputDir = String.valueOf(ImageSave.class.getResource("/images/"));   // Ex: "C:/images/saved/"
         try {
             Path outputPath = Paths.get(outputDir);
             if (!Files.exists(outputPath)) {
