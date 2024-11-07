@@ -6,6 +6,7 @@ import org.bugbusters.database.hibernate.HibernateService;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,6 @@ public class TelaDetalhes {
     private JFrame mainFrame;
     private JFrame prevScreen;
     private JPanel contentPane;
-    private JButton voltarButton;
     private JPanel header;
     private JPanel panelPlacas;
     private JLabel lblPlacaIdentificacao;
@@ -31,8 +31,11 @@ public class TelaDetalhes {
     private JLabel lblVeiculoCor;
     private JLabel lblVeiculoTipo;
     private JLabel lblVeiculoCategoria;
-    private JPanel panelImage;
     private JLabel lblPhoto;
+    private JPanel headerPanel;
+    private JButton placasButton;
+    private JButton inteligenciaButton;
+    private JLabel logoLabel;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen) {
         // HibernateService.openSession();
@@ -44,10 +47,17 @@ public class TelaDetalhes {
         this.prevScreen = prevScreen;
         prevScreen.setVisible(false);
 
-        /**
-         * Back button
-         */
-        voltarButton.addActionListener(new ActionListener() {
+        // header
+        headerPanel.setBackground(Color.decode("#cccccc"));
+        headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
+
+        placasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBack();
+            }
+        });
+        inteligenciaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 goBack();
@@ -55,6 +65,7 @@ public class TelaDetalhes {
         });
 
         loadPlate();
+        loadLogo();
     }
 
     public void createAndShowGUI(Rectangle windowSize) {
@@ -100,7 +111,7 @@ public class TelaDetalhes {
 
     public void loadPlateImage() {
         char sep = File.separatorChar;
-        String imagePath = sep + "images" + sep + this.plate.getId() + ".jpeg";
+        String imagePath =  "images" + "/" + this.plate.getId() + ".jpeg";
 
         int windowWidth = mainFrame.getWidth();
         int windowHeight = mainFrame.getHeight();
@@ -133,5 +144,27 @@ public class TelaDetalhes {
 
     public Plate getPlate() {
         return plate;
+    }
+
+    protected void loadLogo() {
+        char sep = File.separatorChar;
+        String imagePath = sep  + "images"  + sep + "logo.png";
+        try {
+            URL imageURL = getClass().getResource(imagePath);
+            ImageIcon icon = new ImageIcon(imageURL);
+
+            int width = 78;
+            int height = icon.getIconHeight() * width / icon.getIconWidth();
+
+            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            this.logoLabel.setIcon(scaledIcon);
+            this.logoLabel.setBounds(0, 0, width, height);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.err.println("Logo não encontrado.");
+            //throw e;
+        }
     }
 }

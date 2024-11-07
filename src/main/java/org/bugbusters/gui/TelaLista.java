@@ -9,7 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.*;
+import java.io.File;
+import java.net.URL;
 import java.util.List;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -18,8 +21,11 @@ public class TelaLista {
     private JFrame mainFrame;
     private JFrame prevScreen;
     private JPanel contentPane;
-    private JButton voltarButton;
     private JTable tablePlacas;
+    private JPanel headerPanel;
+    private JButton placasButton;
+    private JButton inteligenciaButton;
+    private JLabel logoLabel;
     public List plateList;
 
     public TelaLista(JFrame prevScreen) {
@@ -29,18 +35,20 @@ public class TelaLista {
         this.prevScreen = prevScreen;
         prevScreen.setVisible(false);
 
+        placasButton.setEnabled(false);
+        headerPanel.setBackground(Color.decode("#cccccc"));
+        headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 
-        /**
-         * Back button
-         */
-        voltarButton.addActionListener(new ActionListener() {
+
+        createTable();
+        inteligenciaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 goBack();
             }
         });
 
-        createTable();
+        loadLogo();
     }
 
     public void createTable() {
@@ -142,5 +150,27 @@ public class TelaLista {
     public void goBack() {
         mainFrame.dispose();
         prevScreen.setVisible(true);
+    }
+
+    protected void loadLogo() {
+        char sep = File.separatorChar;
+        String imagePath = sep  + "images"  + sep + "logo.png";
+        try {
+            URL imageURL = getClass().getResource(imagePath);
+            ImageIcon icon = new ImageIcon(imageURL);
+
+            int width = 78;
+            int height = icon.getIconHeight() * width / icon.getIconWidth();
+
+            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            this.logoLabel.setIcon(scaledIcon);
+            this.logoLabel.setBounds(0, 0, width, height);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.err.println("Logo não encontrado.");
+            //throw e;
+        }
     }
 }

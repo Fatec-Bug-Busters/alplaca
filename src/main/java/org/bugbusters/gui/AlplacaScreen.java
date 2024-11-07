@@ -68,6 +68,7 @@ public class AlplacaScreen {
         displaySupportedModels();
         hideInstallModelTrigger();
 
+        // header
         inteligenciaButton.setEnabled(false);
         headerPanel.setBackground(Color.decode("#cccccc"));
         headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
