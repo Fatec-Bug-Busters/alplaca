@@ -4,7 +4,6 @@ import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.OllamaResult;
 import org.bugbusters.database.ImageSave;
-import org.bugbusters.database.entity.Plate;
 import org.bugbusters.ollama.ModelList;
 
 import org.bugbusters.ollama.Models;
@@ -12,12 +11,15 @@ import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,6 +37,10 @@ public class AlplacaScreen {
     private JTextArea textResult2;
     private JButton enviarBDButton;
     private JButton detalheButton;
+    private JButton placasButton;
+    private JButton inteligenciaButton;
+    private JPanel headerPanel;
+    private JLabel logoLabel;
     private String fileName;
     private String filePath;
 
@@ -61,6 +67,10 @@ public class AlplacaScreen {
         // Add models to dropdown
         displaySupportedModels();
         hideInstallModelTrigger();
+
+        inteligenciaButton.setEnabled(false);
+        headerPanel.setBackground(Color.decode("#cccccc"));
+        headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 
         /**
          * Open dialog to upload image
@@ -198,16 +208,32 @@ public class AlplacaScreen {
         detalheButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TelaLista telaLista = new TelaLista(mainFrame);
-                telaLista.createAndShowGUI(new Rectangle(800, 600));
+                openTelaLista();
             }
         });
+        inteligenciaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openAlplacaScreen();
+            }
+        });
+        placasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openTelaLista();
+            }
+        });
+
+        loadLogo();
     }
 
     public void createAndShowGUI() {
+        int width = 800;
+        int height = 600;
         mainFrame.setContentPane(contentPane);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.pack();
+        mainFrame.setSize(width, height);
+        // mainFrame.pack();
         mainFrame.setVisible(true);
     }
 
@@ -275,5 +301,35 @@ public class AlplacaScreen {
         JOptionPane.showMessageDialog(null, "Instalação do modelo " + modelName + " concluída com sucesso!");
     }
 
+    protected void openTelaLista() {
+        TelaLista telaLista = new TelaLista(mainFrame);
+        Rectangle windowSize = this.mainFrame.getBounds();
+        telaLista.createAndShowGUI(windowSize);
+    }
 
+    protected void openAlplacaScreen() {
+        return;
+    }
+
+    protected void loadLogo() {
+//        char sep = File.separatorChar;
+//        String imagePath = "/"  + "images"  + "/logo.jpeg";
+//        try {
+//            URL imageURL = getClass().getResource(imagePath);
+//            ImageIcon icon = new ImageIcon(imageURL);
+//
+//            int width = 78;
+//            int height = icon.getIconHeight() * width / icon.getIconWidth();
+//
+//            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+//            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+//
+//            this.logoLabel.setIcon(scaledIcon);
+//            this.logoLabel.setBounds(0, 0, width, height);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            System.err.println("Logo não encontrado.");
+//            //throw e;
+//        }
+    }
 }

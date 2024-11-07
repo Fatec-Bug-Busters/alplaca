@@ -9,9 +9,9 @@
 
 
         <!-- Change here-->
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/database_name</property>
-        <property name="hibernate.connection.username">your_username</property>
-        <property name="hibernate.connection.password">your_password</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/alplaca</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
         <!-- Change here-->
 
 
