@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class TelaDetalhes {
     private Plate plate;
@@ -34,8 +35,9 @@ public class TelaDetalhes {
     private JLabel lblPhoto;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen) {
-        HibernateService.openSession();
-        this.plate = HibernateService.findById(plate.getId(), Plate.class);
+        // HibernateService.openSession();
+        // this.plate = HibernateService.findById(plate.getId(), Plate.class);
+        this.plate = plate;
         mainFrame = new JFrame("Alplaca");
 
         // Hide previous screen
@@ -70,6 +72,9 @@ public class TelaDetalhes {
                 goBack();
             }
         });
+
+        // Load the plate photo
+        loadPlateImage();
     }
 
     /**
@@ -91,17 +96,33 @@ public class TelaDetalhes {
         Vehicle vehicle = this.plate.getVehicle();
         this.lblVeiculoCor.setText(vehicle.getColor());
         this.lblVeiculoCategoria.setText(vehicle.getCategory().getName());
+    }
 
-        // Load photo
+    public void loadPlateImage() {
         char sep = File.separatorChar;
-        String imagePath = sep + "src" + sep + "java" + sep + "org" + sep + "bugbusters" + sep + "database" + sep + "images";
-        BufferedImage photo = null;
+        String imagePath = sep + "images" + sep + this.plate.getId() + ".jpeg";
+
+        int windowWidth = mainFrame.getWidth();
+        int windowHeight = mainFrame.getHeight();
+
         try {
-            photo = ImageIO.read(new File(imagePath + this.plate.getId() + ".jpg"));
-            ImageIcon image = new ImageIcon(photo);
-            this.lblPhoto.setIcon(image);
-            this.lblPhoto.setBounds(0, 0, photo.getWidth(), photo.getHeight());
-        } catch (IOException e) {
+            URL imageURL = getClass().getResource(imagePath);
+            ImageIcon icon = new ImageIcon(imageURL);
+
+//            int width = Math.min(icon.getIconWidth(), windowWidth);
+//            System.out.println(icon.getIconWidth()+ " "+ windowWidth + " " + width);
+//            int height = Math.min(icon.getIconHeight(), windowHeight);
+//            System.out.println(icon.getIconHeight()+ " "+ windowHeight + " " + height);
+            int width = 360;
+            int height = icon.getIconHeight() * width / icon.getIconWidth();
+
+            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            this.lblPhoto.setIcon(scaledIcon);
+            this.lblPhoto.setBounds(0, 0, width, height);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.err.println("Erro ao carregar a foto da placa: " + imagePath);
         }
     }

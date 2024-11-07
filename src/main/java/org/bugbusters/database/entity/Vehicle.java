@@ -2,9 +2,11 @@ package org.bugbusters.database.entity;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Proxy;
 
 @Entity
 @Table(name = "vehicles")
+@Proxy(lazy = false)  // Ensure no lazy proxy creation for this entity
 public class Vehicle {
 
     @Id
