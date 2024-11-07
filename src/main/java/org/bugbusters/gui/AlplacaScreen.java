@@ -4,6 +4,10 @@ import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.OllamaResult;
 import org.bugbusters.database.ImageSave;
+import org.bugbusters.database.entity.Category;
+import org.bugbusters.database.entity.Plate;
+import org.bugbusters.database.entity.Vehicle;
+import org.bugbusters.database.hibernate.HibernateService;
 import org.bugbusters.ollama.ModelList;
 
 import org.bugbusters.ollama.Models;
@@ -111,9 +115,6 @@ public class AlplacaScreen {
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
                 request.setModel(modelName);
 
-
-                //Salva imagem, mover para o botão Enviar
-                //ImageSave.save(filePath);
 
                 OllamaResult result;
                 try {
@@ -231,6 +232,42 @@ public class AlplacaScreen {
 //
 //                Rectangle windowSize = mainFrame.getBounds();
 //                telaDetalhes.createAndShowGUI(windowSize);
+            }
+        });
+        enviarBDButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean filledField = (textResultCateVei.getText().equals("") || textResultIdentPla.getText().equals("")
+                    || (filePath == null));
+
+
+                if (filledField){
+                    JOptionPane.showMessageDialog(contentPane,"Há campos a serem preenchidos");
+                }
+                else {
+                HibernateService.openSession();
+
+                Vehicle vehicle = new Vehicle();
+                vehicle.setCategory(HibernateService.findByConditionObject("categories","name='"+
+                    textResultCateVei.getText()+"'", Category.class));
+                vehicle.setColor(textResultCorVei.getText());
+
+                HibernateService.insertValue(vehicle);
+
+                Plate plate = new Plate();
+                plate.setLocation(textResultLoc.getText());
+                plate.setIdentification(textResultIdentPla.getText());
+                plate.setColor(textResultCorPla.getText());
+                plate.setVehicle(vehicle);
+                System.out.println(plate);
+
+                HibernateService.insertValue(plate);
+                HibernateService.closeSession();
+
+                ImageSave.save(filePath);
+
+                }
             }
         });
     }

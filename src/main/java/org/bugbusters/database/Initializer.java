@@ -17,9 +17,9 @@ public class Initializer {
         List<Category> categoriesList = new ArrayList<>();
 
         Category category1 = new Category();
-        category1.setName("Carro");
+        category1.setName("Car");
         Category category2 = new Category();
-        category2.setName("Moto");
+        category2.setName("Motorcycle");
 
         categoriesList.add(category1);
         categoriesList.add(category2);

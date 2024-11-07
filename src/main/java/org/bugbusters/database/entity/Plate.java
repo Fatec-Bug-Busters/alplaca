@@ -66,4 +66,15 @@ public class Plate {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+
+    @Override
+    public String toString() {
+        return "Plate{" +
+            "id=" + id +
+            ", identification='" + identification + '\'' +
+            ", location='" + location + '\'' +
+            ", color='" + color + '\'' +
+            ", vehicle=" + vehicle +
+            '}';
+    }
 }
