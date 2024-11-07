@@ -312,24 +312,24 @@ public class AlplacaScreen {
     }
 
     protected void loadLogo() {
-//        char sep = File.separatorChar;
-//        String imagePath = "/"  + "images"  + "/logo.jpeg";
-//        try {
-//            URL imageURL = getClass().getResource(imagePath);
-//            ImageIcon icon = new ImageIcon(imageURL);
-//
-//            int width = 78;
-//            int height = icon.getIconHeight() * width / icon.getIconWidth();
-//
-//            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//            ImageIcon scaledIcon = new ImageIcon(scaledImage);
-//
-//            this.logoLabel.setIcon(scaledIcon);
-//            this.logoLabel.setBounds(0, 0, width, height);
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            System.err.println("Logo não encontrado.");
-//            //throw e;
-//        }
+        char sep = File.separatorChar;
+        String imagePath = sep  + "images"  + sep + "logo.png";
+        try {
+            URL imageURL = getClass().getResource(imagePath);
+            ImageIcon icon = new ImageIcon(imageURL);
+
+            int width = 78;
+            int height = icon.getIconHeight() * width / icon.getIconWidth();
+
+            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            this.logoLabel.setIcon(scaledIcon);
+            this.logoLabel.setBounds(0, 0, width, height);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.err.println("Logo não encontrado.");
+            //throw e;
+        }
     }
 }
