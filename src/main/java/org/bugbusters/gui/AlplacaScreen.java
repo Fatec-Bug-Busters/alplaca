@@ -147,7 +147,7 @@ public class AlplacaScreen {
                         textResultCorVei.setText(result.getResponse());
                     } else if (selectedItem.equals("Categoria do Veículo")) {
                         result = request.syncWithImageFilesRequest(
-                            "What type of vehicle is this (e.g., car, truck, motorcycle) based on the image? Return only the type without  any additional text.",
+                            "What type of vehicle is this (e.g., car, truck, motorcycle) based on the image? Return only the type without  any additional text. If not possible to identify the type of vehicle, retrurn: Não Identificado",
                             images
                         );
                         textResultCateVei.setText(result.getResponse());
