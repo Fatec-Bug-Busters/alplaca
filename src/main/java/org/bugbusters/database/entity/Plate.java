@@ -69,6 +69,12 @@ public class Plate {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", Identification: " + identification + ", Location: " + location + ", Color: " + color;
+        return "Plate{" +
+            "id=" + id +
+            ", identification='" + identification + '\'' +
+            ", location='" + location + '\'' +
+            ", color='" + color + '\'' +
+            ", vehicle=" + vehicle +
+            '}';
     }
 }
