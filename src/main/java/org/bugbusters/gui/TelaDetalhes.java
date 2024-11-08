@@ -2,9 +2,7 @@ package org.bugbusters.gui;
 
 import org.bugbusters.database.entity.Plate;
 import org.bugbusters.database.entity.Vehicle;
-import org.bugbusters.database.hibernate.HibernateService;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -12,9 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 public class TelaDetalhes {
@@ -36,6 +31,7 @@ public class TelaDetalhes {
     private JButton placasButton;
     private JButton inteligenciaButton;
     private JLabel logoLabel;
+    private JButton voltarButton;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen) {
         // HibernateService.openSession();
@@ -66,6 +62,12 @@ public class TelaDetalhes {
 
         loadPlate();
         loadLogo();
+        voltarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBack();
+            }
+        });
     }
 
     public void createAndShowGUI(Rectangle windowSize) {

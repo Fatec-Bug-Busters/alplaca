@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.*;
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +25,7 @@ public class TelaLista {
     private JButton placasButton;
     private JButton inteligenciaButton;
     private JLabel logoLabel;
+    private JButton voltarButton;
     public List plateList;
 
     public TelaLista(JFrame prevScreen) {
@@ -41,7 +41,15 @@ public class TelaLista {
 
 
         createTable();
+
         inteligenciaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBack();
+            }
+        });
+
+        voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 goBack();

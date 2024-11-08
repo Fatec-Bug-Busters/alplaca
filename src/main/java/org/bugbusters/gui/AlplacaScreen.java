@@ -12,7 +12,6 @@ import org.bugbusters.ollama.OllamaRequest;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +35,6 @@ public class AlplacaScreen {
     private JComboBox dropdownOpt;
     private JTextArea textResult2;
     private JButton enviarBDButton;
-    private JButton detalheButton;
     private JButton placasButton;
     private JButton inteligenciaButton;
     private JPanel headerPanel;
@@ -204,12 +202,6 @@ public class AlplacaScreen {
                 } catch (Exception err) {
                     err.printStackTrace();
                 }
-            }
-        });
-        detalheButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openTelaLista();
             }
         });
         inteligenciaButton.addActionListener(new ActionListener() {
