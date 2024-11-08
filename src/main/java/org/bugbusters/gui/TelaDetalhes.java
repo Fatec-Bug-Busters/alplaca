@@ -110,8 +110,7 @@ public class TelaDetalhes {
     }
 
     public void loadPlateImage() {
-        char sep = File.separatorChar;
-        String imagePath =  "images" + "/" + this.plate.getId() + ".jpeg";
+        String imagePath =  "/images/" + this.plate.getId() + ".jpeg";
 
         int windowWidth = mainFrame.getWidth();
         int windowHeight = mainFrame.getHeight();
@@ -147,8 +146,7 @@ public class TelaDetalhes {
     }
 
     protected void loadLogo() {
-        char sep = File.separatorChar;
-        String imagePath = sep  + "images"  + sep + "logo.png";
+        String imagePath = "/images/logo.png";
         try {
             URL imageURL = getClass().getResource(imagePath);
             ImageIcon icon = new ImageIcon(imageURL);

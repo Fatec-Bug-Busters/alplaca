@@ -153,8 +153,7 @@ public class TelaLista {
     }
 
     protected void loadLogo() {
-        char sep = File.separatorChar;
-        String imagePath = sep  + "images"  + sep + "logo.png";
+        String imagePath = "/images/logo.png";
         try {
             URL imageURL = getClass().getResource(imagePath);
             ImageIcon icon = new ImageIcon(imageURL);
