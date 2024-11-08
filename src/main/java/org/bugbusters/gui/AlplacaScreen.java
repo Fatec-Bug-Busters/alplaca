@@ -4,6 +4,10 @@ import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
 import io.github.ollama4j.models.response.OllamaResult;
 import org.bugbusters.database.ImageSave;
+import org.bugbusters.database.entity.Category;
+import org.bugbusters.database.entity.Plate;
+import org.bugbusters.database.entity.Vehicle;
+import org.bugbusters.database.hibernate.HibernateService;
 import org.bugbusters.ollama.ModelList;
 
 import org.bugbusters.ollama.Models;
@@ -25,7 +29,7 @@ import java.util.Arrays;
 
 public class AlplacaScreen {
     JFrame mainFrame;
-    private JTextArea textResult1;
+    private JTextArea textResultLoc;
     private JButton openButton;
     private JButton sendButton;
     private JLabel textFile;
@@ -33,8 +37,11 @@ public class AlplacaScreen {
     private JComboBox modelDropdown;
     private JButton addModelButton;
     private JComboBox dropdownOpt;
-    private JTextArea textResult2;
+    private JTextArea textResultIdentPla;
     private JButton enviarBDButton;
+    private JTextArea textResultCorPla;
+    private JTextArea textResultCorVei;
+    private JTextArea textResultCateVei;
     private JButton placasButton;
     private JButton inteligenciaButton;
     private JPanel headerPanel;
@@ -52,10 +59,10 @@ public class AlplacaScreen {
         mainFrame = new JFrame("Alplaca");
 
         //JTextArea Line Break
-        textResult1.setLineWrap(true);
-        textResult1.setWrapStyleWord(true);
-        textResult2.setLineWrap(true);
-        textResult2.setWrapStyleWord(true);
+        textResultLoc.setLineWrap(true);
+        textResultLoc.setWrapStyleWord(true);
+        textResultIdentPla.setLineWrap(true);
+        textResultIdentPla.setWrapStyleWord(true);
 
         OllamaAPI ollamaAPI = Ollama.getInstance();
         OllamaRequest request = new OllamaRequest(ollamaAPI);
@@ -94,7 +101,10 @@ public class AlplacaScreen {
 
         ArrayList<String> showInfo = new ArrayList<String>() {{
             add("Localidade");
-            add("Número da placa");
+            add("Identificação da placa");
+            add("Cor da placa");
+            add("Cor do veículo");
+            add("Categoria do Veículo");
         }};
         dropdownOpt.setModel(new DefaultComboBoxModel(showInfo.toArray()));
 
@@ -115,7 +125,6 @@ public class AlplacaScreen {
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
                 request.setModel(modelName);
 
-                ImageSave.save(filePath);
 
                 OllamaResult result;
                 try {
@@ -125,16 +134,34 @@ public class AlplacaScreen {
                     String selectedItem = (String) dropdownOpt.getSelectedItem();
                     if (selectedItem.equals("Localidade")) {
                         result = request.syncWithImageFilesRequest(
-                            "This plate has a text on top of it, this is where it's from, show me only it",
+                            "Identify the location (city or state) linked to this license plate. Return only the location without any additional text",
                             images
                         );
-                        textResult1.setText(result.getResponse());
-                    } else if (selectedItem.equals("Número da placa")) {
+                        textResultLoc.setText(result.getResponse());
+                    } else if (selectedItem.equals("Identificação da placa")) {
                         result = request.syncWithImageFilesRequest(
-                            "This car plate model is: 3 letters - 1 number - 1 letter - 2 numbers. Show me only the numbers and letters of this plate",
+                            "This car plate model is: 3 letters - 1 number - 1 letter - 2 numbers or 3 letters - 4 numbers. Rerurn only the numbers and letters of this plate",
                             images
                         );
-                        textResult2.setText(result.getResponse());
+                        textResultIdentPla.setText(result.getResponse());
+                    } else if (selectedItem.equals("Cor da placa")) {
+                        result = request.syncWithImageFilesRequest(
+                            "What color is the letters in the license plate? return only the color without any additional text",
+                            images
+                        );
+                        textResultCorPla.setText(result.getResponse());
+                    } else if (selectedItem.equals("Cor do veículo")) {
+                        result = request.syncWithImageFilesRequest(
+                            "What color is the vehicle? return only the color without any additional text",
+                            images
+                        );
+                        textResultCorVei.setText(result.getResponse());
+                    } else if (selectedItem.equals("Categoria do Veículo")) {
+                        result = request.syncWithImageFilesRequest(
+                            "What type of vehicle is this (e.g., car, truck, motorcycle) based on the image? Return only the type without  any additional text. If not possible to identify the type of vehicle, retrurn: Não Identificado",
+                            images
+                        );
+                        textResultCateVei.setText(result.getResponse());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -204,6 +231,7 @@ public class AlplacaScreen {
                 }
             }
         });
+
         inteligenciaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,14 +244,52 @@ public class AlplacaScreen {
                 openTelaLista();
             }
         });
+        enviarBDButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean filledField = (textResultCateVei.getText().equals("") || textResultIdentPla.getText().equals("")
+                    || (filePath == null));
+
+
+                if (filledField){
+                    JOptionPane.showMessageDialog(contentPane,"Há campos a serem preenchidos");
+                }
+                else {
+                HibernateService.openSession();
+
+                Vehicle vehicle = new Vehicle();
+                vehicle.setCategory(HibernateService.findByConditionObject("categories","name='"+
+                    textResultCateVei.getText()+"'", Category.class));
+                vehicle.setColor(textResultCorVei.getText());
+
+                HibernateService.insertValue(vehicle);
+
+                Plate plate = new Plate();
+                plate.setLocation(textResultLoc.getText());
+                plate.setIdentification(textResultIdentPla.getText());
+                plate.setColor(textResultCorPla.getText());
+                plate.setVehicle(vehicle);
+                System.out.println(plate);
+
+                HibernateService.insertValue(plate);
+                HibernateService.closeSession();
+
+                ImageSave.save(filePath);
+
+                }
+            }
+        });
 
         loadLogo();
     }
 
     public void createAndShowGUI() {
         int width = 800;
-        int height = 600;
+        int height = 750;
         mainFrame.setContentPane(contentPane);
+        Image image = Toolkit.getDefaultToolkit().getImage("src/main/java/org/bugbusters/gui/icon2.png");
+        mainFrame.setIconImage(image);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(width, height);
         // mainFrame.pack();

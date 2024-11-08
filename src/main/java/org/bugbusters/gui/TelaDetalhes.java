@@ -121,10 +121,6 @@ public class TelaDetalhes {
             URL imageURL = getClass().getResource(imagePath);
             ImageIcon icon = new ImageIcon(imageURL);
 
-//            int width = Math.min(icon.getIconWidth(), windowWidth);
-//            System.out.println(icon.getIconWidth()+ " "+ windowWidth + " " + width);
-//            int height = Math.min(icon.getIconHeight(), windowHeight);
-//            System.out.println(icon.getIconHeight()+ " "+ windowHeight + " " + height);
             int width = 360;
             int height = icon.getIconHeight() * width / icon.getIconWidth();
 
