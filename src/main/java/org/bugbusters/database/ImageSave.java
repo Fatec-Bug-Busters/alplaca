@@ -49,7 +49,7 @@ public class ImageSave {
 
     private static int countFilesInDirectory() {
         // Directory path
-        String directoryPath = "src/main/java/org/bugbusters/database/images/";
+        String directoryPath = String.valueOf(ImageSave.class.getResource("/images/"));
 
         // Create a File object for the directory
         File directory = new File(directoryPath);
