@@ -112,14 +112,13 @@ public class TelaDetalhes {
     }
 
     public void loadPlateImage() {
-        String imagePath =  "/images/" + this.plate.getId() + ".jpeg";
+        String filename = "src/main/resources/images/" + this.plate.getId() + ".jpeg";
 
         int windowWidth = mainFrame.getWidth();
         int windowHeight = mainFrame.getHeight();
 
         try {
-            URL imageURL = getClass().getResource(imagePath);
-            ImageIcon icon = new ImageIcon(imageURL);
+            ImageIcon icon = new ImageIcon(filename);
 
             int width = 360;
             int height = icon.getIconHeight() * width / icon.getIconWidth();
@@ -131,7 +130,7 @@ public class TelaDetalhes {
             this.lblPhoto.setBounds(0, 0, width, height);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.err.println("Erro ao carregar a foto da placa: " + imagePath);
+            System.err.println("Erro ao carregar a foto da placa: " + filename);
         }
     }
 
@@ -144,10 +143,9 @@ public class TelaDetalhes {
     }
 
     protected void loadLogo() {
-        String imagePath = "/images/logo.png";
+        String filename = "src/main/resources/images/logo.png";
         try {
-            URL imageURL = getClass().getResource(imagePath);
-            ImageIcon icon = new ImageIcon(imageURL);
+            ImageIcon icon = new ImageIcon(filename);
 
             int width = 78;
             int height = icon.getIconHeight() * width / icon.getIconWidth();

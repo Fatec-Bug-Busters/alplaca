@@ -13,7 +13,7 @@ public class ImageSave {
     public static void save(String filePath) {
 
         // Directory where the image will be saved
-        String outputDir = "src/main/resources/images/";   // Ex: "C:/images/saved/"
+        String outputDir = "src/main/resources/images/";
         try {
             Path outputPath = Paths.get(outputDir);
             if (!Files.exists(outputPath)) {

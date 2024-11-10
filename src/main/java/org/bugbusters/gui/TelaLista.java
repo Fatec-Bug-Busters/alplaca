@@ -161,10 +161,9 @@ public class TelaLista {
     }
 
     protected void loadLogo() {
-        String imagePath = "/images/logo.png";
+        String filename = "src/main/resources/images/logo.png";
         try {
-            URL imageURL = getClass().getResource(imagePath);
-            ImageIcon icon = new ImageIcon(imageURL);
+            ImageIcon icon = new ImageIcon(filename);
 
             int width = 78;
             int height = icon.getIconHeight() * width / icon.getIconWidth();
