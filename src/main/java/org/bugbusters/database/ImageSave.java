@@ -13,7 +13,7 @@ public class ImageSave {
     public static void save(String filePath) {
 
         // Directory where the image will be saved
-        String outputDir = String.valueOf(ImageSave.class.getResource("/images/"));   // Ex: "C:/images/saved/"
+        String outputDir = "src/main/resources/images/";
         try {
             Path outputPath = Paths.get(outputDir);
             if (!Files.exists(outputPath)) {
@@ -23,7 +23,7 @@ public class ImageSave {
             int idPhoto = countFilesInDirectory();
 
             // Output file name with the new extension/format
-            String newImageName = idPhoto+1 + ".jpeg";
+            String newImageName = idPhoto+".jpeg";
 
             // Read the original image
             BufferedImage image = ImageIO.read(new File(filePath));
@@ -49,7 +49,7 @@ public class ImageSave {
 
     private static int countFilesInDirectory() {
         // Directory path
-        String directoryPath = "src/main/java/org/bugbusters/database/images/";
+        String directoryPath = "src/main/resources/images/";
 
         // Create a File object for the directory
         File directory = new File(directoryPath);
