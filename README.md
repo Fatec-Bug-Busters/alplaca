@@ -48,7 +48,7 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 
 ### Sprint 3
 
-![GIF Sprint 3](imagems/GifSprint3.gif
+![GIF Sprint 3](images/GifSprint3.gif)
 - [x] Lista de Placas
 - [x] Detalhes de Cada Placa
 - [x] Navegação Entre Elas
