@@ -39,12 +39,19 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 - [x] Leitura de placas de carro;
 - [x] Opções de modelo de IA.
 
-### Sprint 2. Produto Mínimo Viável
+### Sprint 2
 
 ![GIF Sprint 2](images/GifSprint2.gif)
 - [x] Escolha de Modelos
 - [x] Variedade de Informações
 - [x] Interface Mais Elaborada
+
+### Sprint 3
+
+![GIF Sprint 3](images/GifSprint3.gif)
+- [x] Lista de Placas
+- [x] Detalhes de Cada Placa
+- [x] Navegação Entre Elas
 
 ## Competências desenvolvidas
 
