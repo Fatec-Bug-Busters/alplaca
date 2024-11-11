@@ -14,6 +14,8 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
   - [Índice](#índice)
   - [Cronograma e Sprints](#cronograma-e-sprints)
     - [Sprint 1. Produto Mínimo Viável](#sprint-1-produto-mínimo-viável)
+    - [Sprint 2](#sprint-2)
+    - [Sprint 3](#sprint-3)
   - [Competências desenvolvidas](#competências-desenvolvidas)
     - [Hard Skills](#hard-skills)
     - [Soft Skills](#soft-skills)
@@ -27,9 +29,9 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 | ----------------- | ---------- | ------------ |
 | Kick Off          | 29/08/2024 | Concluído    |
 | 01                | 09/09/2024 | Concluída    |
-| 02                | 30/09/2024 | Em progresso |
-| 03                | 21/10/2024 | A fazer      |
-| 04                | 11/11/2024 | A fazer      |
+| 02                | 30/09/2024 | Concluída    |
+| 03                | 21/10/2024 | Concluída    |
+| 04                | 11/11/2024 | Em progresso |
 | Feira de Soluções | 12/12/2024 | A fazer      |
 
 ### Sprint 1. Produto Mínimo Viável
@@ -39,12 +41,12 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 - [x] Leitura de placas de carro;
 - [x] Opções de modelo de IA.
 
-### Sprint 2
+### Sprint 2. Produto Mínimo Viável
 
 ![GIF Sprint 2](images/GifSprint2.gif)
-- [x] Escolha de Modelos
-- [x] Variedade de Informações
-- [x] Interface Mais Elaborada
+- [x] Escolha de modelos
+- [x] Variedade de informações
+- [x] Interface mais elaborada
 
 ### Sprint 3
 
@@ -96,17 +98,39 @@ Soft skills desenvolvidas
 
 ## Documentos
 
+### Backlog do Produto
+
+![Backlog Produto](images/BacklogNovo.png)
+
+## Sprint 1
+
 ### Gráfico Burndown
 
 ![Burndown](images/BurndownS1.png)
 
-### Backlog do Produto
-
-![Backlog Produto](images/BacklogProduto.png)
-
-### Backlog da Sprint 1
+### Backlog da Sprint
 
 ![Backlog Sprint](images/BacklogS1.png)
+
+## Sprint 2
+
+### Gráfico Burndown
+
+![Burndown](images/Burndown2.png)
+
+### Backlog da Sprint
+
+![Backlog Sprint](images/BacklogSprint2.png)
+
+## Sprint 3
+
+### Gráfico Burndown
+
+![Burndown](images/Burndown3.png)
+
+### Backlog da Sprint
+
+![Backlog Sprint](images/BacklogSprint3.png)
 
 <!-- ## Veja Também
 
@@ -118,12 +142,11 @@ Soft skills desenvolvidas
 
 |    Função     | Nome             |                                                                                                                                               GitHub |
 | :-----------: | :--------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Product Owner | Felipe Chagas       |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/oFelipeChagas)        |
+| Product Owner | Gabriel Viell       |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/GabrielViellCastilho) |
 | Scrum Master  | Vinicius Elias      |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/ViniElias)            |
 |  Team Member  | Allan Couto         |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/allancouto)           |
 |  Team Member  | Davi Miyake         |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/DaviMBDev)            |
 |  Team Member  | Diego Castilho      |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/DigoCast)             |
-|  Team Member  | Gabriel Viell       |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/GabrielViellCastilho) |
 |  Team Member  | Humberto Ishii      |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/HumbertoIshii)        |
 |  Team Member  | Wesley Gonçalves    |   [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/WesleyGoncalves)      |
 
