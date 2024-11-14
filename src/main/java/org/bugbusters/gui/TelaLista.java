@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.*;
-import java.net.URL;
 import java.util.List;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +29,8 @@ public class TelaLista {
 
     public TelaLista(JFrame prevScreen) {
         mainFrame = new JFrame("Alplaca");
+        Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/logo.png");
+        mainFrame.setIconImage(image);
 
         // Hide previous screen
         this.prevScreen = prevScreen;
@@ -103,7 +104,7 @@ public class TelaLista {
             button.addActionListener(e -> {
                 // Plate plate = plateList.get(selectedRow);
                 Plate plate = (Plate) plateList.stream().toArray()[selectedRow];
-                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame);
+                TelaDetalhes telaDetalhes = new TelaDetalhes(plate, mainFrame, prevScreen);
 
                 Rectangle windowSize = mainFrame.getBounds();
                 telaDetalhes.createAndShowGUI(windowSize);

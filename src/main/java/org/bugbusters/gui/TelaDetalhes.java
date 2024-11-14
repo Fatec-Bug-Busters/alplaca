@@ -10,12 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.URL;
 
 public class TelaDetalhes {
     private Plate plate;
     private JFrame mainFrame;
     private JFrame prevScreen;
+    private JFrame prevPrevScreen;
     private JPanel contentPane;
     private JPanel header;
     private JPanel panelPlacas;
@@ -24,7 +24,6 @@ public class TelaDetalhes {
     private JLabel lblPlacaCor;
     private JPanel panelVeiculos;
     private JLabel lblVeiculoCor;
-    private JLabel lblVeiculoTipo;
     private JLabel lblVeiculoCategoria;
     private JLabel lblPhoto;
     private JPanel headerPanel;
@@ -33,14 +32,17 @@ public class TelaDetalhes {
     private JLabel logoLabel;
     private JButton voltarButton;
 
-    public TelaDetalhes(Plate plate, JFrame prevScreen) {
+    public TelaDetalhes(Plate plate, JFrame prevScreen, JFrame prevPrevScreen) {
         // HibernateService.openSession();
         // this.plate = HibernateService.findById(plate.getId(), Plate.class);
         this.plate = plate;
         mainFrame = new JFrame("Alplaca");
+        Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/logo.png");
+        mainFrame.setIconImage(image);
 
         // Hide previous screen
         this.prevScreen = prevScreen;
+        this.prevPrevScreen = prevPrevScreen;
         prevScreen.setVisible(false);
 
         // header
@@ -56,7 +58,7 @@ public class TelaDetalhes {
         inteligenciaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                goBack();
+                goBackTwice();
             }
         });
 
@@ -97,6 +99,12 @@ public class TelaDetalhes {
         mainFrame.dispose();
         prevScreen.setVisible(true);
     }
+
+    public void goBackTwice() {
+        mainFrame.dispose();
+        prevPrevScreen.setVisible(true);
+    }
+
 
     /**
      * Load plate data into the page
