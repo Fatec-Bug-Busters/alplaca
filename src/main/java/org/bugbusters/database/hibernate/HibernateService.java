@@ -73,6 +73,22 @@ public class HibernateService {
         return results;
     }
 
+    public static int findLastIdPlates(){
+        Transaction transaction = null;
+        int id ;
+        try {
+            transaction = session.beginTransaction();
+
+            String sql = "SELECT MAX(ID) FROM " + "plates";
+            NativeQuery query = session.createNativeQuery(sql);
+            id = (int) query.getSingleResult();
+            transaction.rollback();
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return id;
+    }
+
 
     public static <T> void updateValue(T entity){
         Transaction transaction = null;

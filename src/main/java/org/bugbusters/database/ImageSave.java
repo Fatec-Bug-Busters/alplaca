@@ -1,5 +1,7 @@
 package org.bugbusters.database;
 
+import org.bugbusters.database.hibernate.HibernateService;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +21,9 @@ public class ImageSave {
             if (!Files.exists(outputPath)) {
                 Files.createDirectories(outputPath);
             }
-
-            int idPhoto = countFilesInDirectory();
+            HibernateService.openSession();
+            int idPhoto = HibernateService.findLastIdPlates();
+            HibernateService.closeSession();
 
             // Output file name with the new extension/format
             String newImageName = idPhoto+".jpeg";
@@ -47,19 +50,6 @@ public class ImageSave {
         }
     }
 
-    private static int countFilesInDirectory() {
-        // Directory path
-        String directoryPath = "src/main/resources/images/";
-
-        // Create a File object for the directory
-        File directory = new File(directoryPath);
-
-        // List all files in the directory (including subdirectories)
-        int fileCount = directory.listFiles().length;
-
-        // Return the total number of files
-        return fileCount;
-    }
 }
 
 
