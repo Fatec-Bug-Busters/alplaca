@@ -22,7 +22,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -124,7 +123,6 @@ public class AlplacaScreen {
 
                 String modelName = modelList.getModelName(modelDropdown.getSelectedItem().toString());
                 request.setModel(modelName);
-
 
                 OllamaResult result;
                 try {
@@ -277,6 +275,14 @@ public class AlplacaScreen {
 
                 ImageSave.save(filePath);
 
+                textResultLoc.setText("");
+                textResultIdentPla.setText("");
+                textResultCorPla.setText("");
+                textResultCorVei.setText("");
+                textResultCateVei.setText("");
+
+                filePath = null;
+                textFile.setText("Nenhum arquivo selecionado");
                 }
             }
         });
@@ -288,13 +294,14 @@ public class AlplacaScreen {
         int width = 800;
         int height = 750;
         mainFrame.setContentPane(contentPane);
-        Image image = Toolkit.getDefaultToolkit().getImage("src/main/java/org/bugbusters/gui/icon2.png");
+        Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/logo.png");
         mainFrame.setIconImage(image);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(width, height);
         // mainFrame.pack();
         mainFrame.setVisible(true);
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
