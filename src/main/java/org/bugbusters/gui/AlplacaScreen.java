@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -264,7 +265,7 @@ public class AlplacaScreen {
                     Object[] options = {"Sim", "Não"};
 
                     int response = JOptionPane.showOptionDialog(
-                        null,
+                        contentPane,
                         "A categoria "+textResultCateVei.getText()+" não existe deseja adicioná-la?",
                         "Confirmação",
                         JOptionPane.YES_NO_OPTION,
@@ -326,11 +327,24 @@ public class AlplacaScreen {
         mainFrame.setSize(width, height);
         // mainFrame.pack();
         mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
     }
 
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            HibernateService.openSession();
+            if (HibernateService.findByCondition("categories","name = 'Car'",Category.class).isEmpty()) {
+
+            Category category1 = new Category();
+            category1.setName("Car");
+            Category category2 = new Category();
+            category2.setName("Motorcycle");
+
+            HibernateService.insertValue(category1);
+            HibernateService.insertValue(category2);
+            }
+            HibernateService.closeSession();
             AlplacaScreen tela = new AlplacaScreen();
             tela.createAndShowGUI();
         });
