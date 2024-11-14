@@ -78,6 +78,7 @@ public class TelaDetalhes {
         // mainFrame.pack();
         mainFrame.setSize(windowSize.width, windowSize.height);
         mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
 
         /**
          * Override the close window operation

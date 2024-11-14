@@ -10,7 +10,7 @@ public class Plate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "identification", nullable = false, length = 127)
+    @Column(name = "identification", nullable = false,unique = true, length = 127)
     private String identification;
 
     @Column(name = "location", length = 127)

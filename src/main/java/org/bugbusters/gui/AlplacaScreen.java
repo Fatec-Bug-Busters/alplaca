@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 
 public class AlplacaScreen {
@@ -246,14 +248,39 @@ public class AlplacaScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                HibernateService.openSession();
+
                 boolean filledField = (textResultCateVei.getText().equals("") || textResultIdentPla.getText().equals("")
                     || (filePath == null));
 
 
                 if (filledField){
                     JOptionPane.showMessageDialog(contentPane,"Há campos a serem preenchidos");
-                }
-                else {
+                }else if (!HibernateService.findByCondition("plates","identification = '"+textResultIdentPla.getText()+"'",
+                    Plate.class).isEmpty()) {
+                    JOptionPane.showMessageDialog(contentPane,"Essa placa já existe!");
+                } else if (HibernateService.findByCondition("categories","name = '"+textResultCateVei.getText()+"'",
+                    Category.class).isEmpty()) {
+
+                    Object[] options = {"Sim", "Não"};
+
+                    int response = JOptionPane.showOptionDialog(
+                        contentPane,
+                        "A categoria "+textResultCateVei.getText()+" não existe deseja adicioná-la?",
+                        "Confirmação",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                    );
+                    if (response == JOptionPane.YES_OPTION) {
+                        Category category = new Category();
+                        category.setName(textResultCateVei.getText());
+                        HibernateService.insertValue(category);
+                        JOptionPane.showMessageDialog(contentPane,"Adicionada com sucesso!");
+                    }
+                } else {
                 HibernateService.openSession();
 
                 Vehicle vehicle = new Vehicle();
@@ -288,6 +315,20 @@ public class AlplacaScreen {
         });
 
         loadLogo();
+
+        HibernateService.openSession();
+        if (HibernateService.findByCondition("categories","name = 'Car'",Category.class).isEmpty()) {
+
+            Category category1 = new Category();
+            category1.setName("Car");
+            Category category2 = new Category();
+            category2.setName("Motorcycle");
+
+            HibernateService.insertValue(category1);
+            HibernateService.insertValue(category2);
+
+            HibernateService.closeSession();
+        }
     }
 
     public void createAndShowGUI() {
@@ -300,10 +341,13 @@ public class AlplacaScreen {
         mainFrame.setSize(width, height);
         // mainFrame.pack();
         mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
     }
 
 
     public static void main(String[] args) {
+
+
         SwingUtilities.invokeLater(() -> {
             AlplacaScreen tela = new AlplacaScreen();
             tela.createAndShowGUI();
