@@ -315,6 +315,20 @@ public class AlplacaScreen {
         });
 
         loadLogo();
+
+        HibernateService.openSession();
+        if (HibernateService.findByCondition("categories","name = 'Car'",Category.class).isEmpty()) {
+
+            Category category1 = new Category();
+            category1.setName("Car");
+            Category category2 = new Category();
+            category2.setName("Motorcycle");
+
+            HibernateService.insertValue(category1);
+            HibernateService.insertValue(category2);
+
+            HibernateService.closeSession();
+        }
     }
 
     public void createAndShowGUI() {
@@ -332,19 +346,9 @@ public class AlplacaScreen {
 
 
     public static void main(String[] args) {
+
+
         SwingUtilities.invokeLater(() -> {
-            HibernateService.openSession();
-            if (HibernateService.findByCondition("categories","name = 'Car'",Category.class).isEmpty()) {
-
-            Category category1 = new Category();
-            category1.setName("Car");
-            Category category2 = new Category();
-            category2.setName("Motorcycle");
-
-            HibernateService.insertValue(category1);
-            HibernateService.insertValue(category2);
-            }
-            HibernateService.closeSession();
             AlplacaScreen tela = new AlplacaScreen();
             tela.createAndShowGUI();
         });

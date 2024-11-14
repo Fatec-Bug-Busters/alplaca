@@ -1,6 +1,5 @@
 package org.bugbusters;
 
-import org.bugbusters.database.hibernate.HibernateService;
 import org.bugbusters.gui.AlplacaScreen;
 
 public class Main {
