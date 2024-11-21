@@ -344,6 +344,18 @@ public class AlplacaScreen {
         mainFrame.setLocationRelativeTo(null);
     }
 
+    public void createAndShowGUI(Rectangle windowSize) {
+
+        mainFrame.setContentPane(contentPane);
+        Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/logo.png");
+        mainFrame.setIconImage(image);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(windowSize.width, windowSize.height);
+        // mainFrame.pack();
+        mainFrame.setVisible(true);
+        mainFrame.setLocationRelativeTo(null);
+    }
+
 
     public static void main(String[] args) {
 

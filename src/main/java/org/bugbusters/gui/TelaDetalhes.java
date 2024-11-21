@@ -75,11 +75,7 @@ public class TelaDetalhes {
                 goBack();
             }
         });
-        atualizarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
+
         textFieldIdentificacao.setEnabled(false);
         textFieldLocal.setEnabled(false);
         textFieldCorPlaca.setEnabled(false);
@@ -169,7 +165,12 @@ public class TelaDetalhes {
      */
     public void goBack() {
         mainFrame.dispose();
-        prevScreen.setVisible(true);
+        prevScreen.dispose();
+        prevPrevScreen.dispose();
+        TelaLista telaLista = new TelaLista(mainFrame);
+        Rectangle windowSize = this.mainFrame.getBounds();
+        telaLista.createAndShowGUI(windowSize);
+
     }
 
     public void goBackTwice() {

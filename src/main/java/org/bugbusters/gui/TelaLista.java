@@ -188,6 +188,7 @@ public class TelaLista {
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
+
     }
 
     public void createAndShowGUI(Rectangle windowSize) {
@@ -213,7 +214,11 @@ public class TelaLista {
      */
     public void goBack() {
         mainFrame.dispose();
-        prevScreen.setVisible(true);
+        prevScreen.dispose();
+        AlplacaScreen alplacaScreen = new AlplacaScreen();
+        Rectangle windowSize = this.mainFrame.getBounds();
+        alplacaScreen.createAndShowGUI(windowSize);
+
     }
 
     protected void loadLogo() {
