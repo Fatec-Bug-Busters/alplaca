@@ -73,6 +73,20 @@ public class HibernateService {
         return results;
     }
 
+    public static List findByCondition(String sql, Class entity) {
+        Transaction transaction = null;;
+        List results = null;
+        try {
+            transaction = session.beginTransaction();
+            NativeQuery query = session.createNativeQuery(sql, entity);
+            results = query.getResultList();
+            transaction.rollback();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return results;
+    }
+
 
     public static <T> void updateValue(T entity){
         Transaction transaction = null;
