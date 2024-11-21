@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +26,9 @@ public class TelaLista {
     private JButton inteligenciaButton;
     private JLabel logoLabel;
     private JButton voltarButton;
+    private JButton pesquisarButton;
+    private JComboBox pesquisarDropdown;
+    private JTextField pesquisarTextField;
     public List plateList;
 
     public TelaLista(JFrame prevScreen) {
@@ -40,8 +44,12 @@ public class TelaLista {
         headerPanel.setBackground(Color.decode("#cccccc"));
         headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 
+        List<String> options = Arrays.asList("Localidade","Identificação da Placa","Cor da placa","Cor da placa","Cor do veículo","Categoria do veículo");
+        DefaultComboBoxModel<String> modelPesquisar = new DefaultComboBoxModel<>(options.toArray(new String[0]));
+        pesquisarDropdown.setModel(modelPesquisar);
 
-        createTable();
+
+        createTable("plates","id > 0");
 
         inteligenciaButton.addActionListener(new ActionListener() {
             @Override
@@ -58,11 +66,57 @@ public class TelaLista {
         });
 
         loadLogo();
+
+        pesquisarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String option = pesquisarDropdown.getSelectedItem().toString();
+                switch (option) {
+                    case "Localidade":
+                        createTable("plates","location LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    case "Identificação da Placa":
+                        createTable("plates","identification LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    case "Cor da placa":
+                        createTable("plates","color LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    case "Cor do veículo":
+                        createTable("SELECT p.id, p.color, p.identification, p.location, p.id_vehicle FROM plates p JOIN vehicles v ON p.id_vehicle = v.id WHERE v.color LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    default:
+                        createTable("SELECT p.id, p.color, p.identification, p.location, p.id_vehicle FROM plates p JOIN vehicles v ON p.id_vehicle = v.id JOIN categories c ON v.id_category = c.id WHERE c.name LIKE '%"+pesquisarTextField.getText()+"%'");
+                }
+            }
+        });
     }
 
-    public void createTable() {
+    public void createTable(String nameTable, String condition) {
         HibernateService.openSession();
-        this.plateList = HibernateService.findByCondition("plates","id > 0",Plate.class);
+        this.plateList = HibernateService.findByCondition(nameTable,condition,Plate.class);
+
+        Object[][] data = new Object[plateList.size()][3];
+        for (int i = 0; i < plateList.size(); i++) {
+            Plate plate = (Plate) plateList.get(i);
+            data[i][0] = plate.getId();
+            data[i][1] = plate.getIdentification();
+            data[i][2] = "Detalhes";
+        }
+        HibernateService.closeSession();
+
+        tablePlacas.setModel(new DefaultTableModel(
+            data,
+            new String[]{"ID", "Placa", "Detalhes"}
+        ));
+
+        tablePlacas.getColumn("Detalhes").setCellRenderer((TableCellRenderer) new ButtonRenderer());
+        tablePlacas.getColumn("Detalhes").setCellEditor(new ButtonEditor(new JCheckBox()));
+
+    }
+
+    public void createTable(String sql) {
+        HibernateService.openSession();
+        this.plateList = HibernateService.findByCondition(sql,Plate.class);
 
         Object[][] data = new Object[plateList.size()][3];
         for (int i = 0; i < plateList.size(); i++) {
