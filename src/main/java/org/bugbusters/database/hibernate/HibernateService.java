@@ -84,7 +84,7 @@ public class HibernateService {
             }
 
             transaction = session.beginTransaction();
-            session.merge(entity);
+            session.update(entity);
             transaction.commit();
         }catch (Exception e){
             if (transaction != null) {
@@ -146,7 +146,7 @@ public class HibernateService {
 
             String sql = String.format("SELECT * FROM %s WHERE %s", nameTable, condition);
             NativeQuery query = session.createNativeQuery(sql, entity);
-            results = (T) query.getSingleResult();
+            results = (T) query.getSingleResultOrNull();
             transaction.rollback();
 
 

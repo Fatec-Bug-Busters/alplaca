@@ -1,7 +1,9 @@
 package org.bugbusters.gui;
 
+import org.bugbusters.database.entity.Category;
 import org.bugbusters.database.entity.Plate;
 import org.bugbusters.database.entity.Vehicle;
+import org.bugbusters.database.hibernate.HibernateService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,18 +21,21 @@ public class TelaDetalhes {
     private JPanel contentPane;
     private JPanel header;
     private JPanel panelPlacas;
-    private JLabel lblPlacaIdentificacao;
-    private JLabel lblPlacaLocal;
-    private JLabel lblPlacaCor;
     private JPanel panelVeiculos;
-    private JLabel lblVeiculoCor;
-    private JLabel lblVeiculoCategoria;
     private JLabel lblPhoto;
     private JPanel headerPanel;
     private JButton placasButton;
     private JButton inteligenciaButton;
     private JLabel logoLabel;
     private JButton voltarButton;
+    private JButton atualizarButton;
+    private JButton deletarButton;
+    private JTextField textFieldIdentificacao;
+    private JTextField textFieldLocal;
+    private JTextField textFieldCorPlaca;
+    private JTextField textFieldCorVeiculo;
+    private JTextField textFieldCategoria;
+    private JButton editarButton;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen, JFrame prevPrevScreen) {
         // HibernateService.openSession();
@@ -68,6 +73,72 @@ public class TelaDetalhes {
             @Override
             public void actionPerformed(ActionEvent e) {
                 goBack();
+            }
+        });
+        atualizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        textFieldIdentificacao.setEnabled(false);
+        textFieldLocal.setEnabled(false);
+        textFieldCorPlaca.setEnabled(false);
+        textFieldCorVeiculo.setEnabled(false);
+        textFieldCategoria.setEnabled(false);
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textFieldIdentificacao.setEnabled(true);
+                textFieldLocal.setEnabled(true);
+                textFieldCorPlaca.setEnabled(true);
+                textFieldCorVeiculo.setEnabled(true);
+                textFieldCategoria.setEnabled(true);
+            }
+        });
+        atualizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HibernateService.openSession();
+                Category categoryUpdate = HibernateService.findByConditionObject("categories",
+                    "name = '"+textFieldCategoria.getText()+"'",
+                    Category.class);
+
+                if (categoryUpdate == null)
+                {
+                    Category categoryInsert = new Category();
+                    categoryInsert.setName(textFieldCategoria.getText());
+                    HibernateService.insertValue(categoryInsert);
+
+                    categoryUpdate = HibernateService.findByConditionObject("categories",
+                        "name = '"+textFieldCorVeiculo.getText()+"'",
+                        Category.class);
+                }
+
+                Vehicle vehicleUpdate = new Vehicle();
+                vehicleUpdate.setId(plate.getVehicle().getId());
+                vehicleUpdate.setColor(textFieldCorVeiculo.getText());
+                vehicleUpdate.setCategory(categoryUpdate);
+
+
+                System.out.println("Placa Criada");
+                Plate plateUpdate = new Plate();
+                plateUpdate.setId(plate.getId());
+                plateUpdate.setVehicle(vehicleUpdate);
+                plateUpdate.setIdentification(textFieldIdentificacao.getText());
+                plateUpdate.setLocation(textFieldLocal.getText());
+                plateUpdate.setColor(textFieldCorPlaca.getText());
+
+                System.out.println(categoryUpdate);
+                System.out.println(vehicleUpdate);
+                System.out.println(plateUpdate);
+
+                HibernateService.updateValue(categoryUpdate);
+                HibernateService.updateValue(vehicleUpdate);
+                HibernateService.updateValue(plateUpdate);
+                HibernateService.closeSession();
+
+
             }
         });
     }
@@ -111,13 +182,15 @@ public class TelaDetalhes {
      * Load plate data into the page
      */
     public void loadPlate() {
-        this.lblPlacaIdentificacao.setText(this.plate.getIdentification());
-        this.lblPlacaLocal.setText(this.plate.getLocation());
-        this.lblPlacaCor.setText(this.plate.getColor());
+        this.textFieldIdentificacao.setText(this.plate.getIdentification());
+        this.textFieldLocal.setText(this.plate.getLocation());
+        this.textFieldCorPlaca.setText(this.plate.getColor());
 
         Vehicle vehicle = this.plate.getVehicle();
-        this.lblVeiculoCor.setText(vehicle.getColor());
-        this.lblVeiculoCategoria.setText(vehicle.getCategory().getName());
+        this.textFieldCorVeiculo.setText(vehicle.getColor());
+        this.textFieldCategoria.setText(vehicle.getCategory().getName());
+
+
     }
 
     public void loadPlateImage() {
