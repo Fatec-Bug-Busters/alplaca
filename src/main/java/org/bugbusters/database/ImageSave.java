@@ -51,6 +51,14 @@ public class ImageSave {
         }
     }
 
+    public static void delete(int id){
+        String outputDir = "src/main/resources/images/"+id+".jpeg";
+        File outputFile = new File(outputDir);
+        if (outputFile.exists()) {
+            outputFile.delete();
+        }
+
+    }
 }
 
 

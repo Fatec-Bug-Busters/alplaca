@@ -1,5 +1,6 @@
 package org.bugbusters.gui;
 
+import org.bugbusters.database.ImageSave;
 import org.bugbusters.database.entity.Category;
 import org.bugbusters.database.entity.Plate;
 import org.bugbusters.database.entity.Vehicle;
@@ -135,6 +136,16 @@ public class TelaDetalhes {
                 HibernateService.closeSession();
 
 
+            }
+        });
+        deletarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HibernateService.openSession();
+                HibernateService.deleteValue(plate);
+                HibernateService.deleteValue(plate.getVehicle());
+                ImageSave.delete(plate.getId());
+                HibernateService.closeSession();
             }
         });
     }
