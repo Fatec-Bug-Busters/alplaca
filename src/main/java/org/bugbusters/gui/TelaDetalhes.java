@@ -107,7 +107,7 @@ public class TelaDetalhes {
                     HibernateService.insertValue(categoryInsert);
 
                     categoryUpdate = HibernateService.findByConditionObject("categories",
-                        "name = '"+textFieldCorVeiculo.getText()+"'",
+                        "name = '"+textFieldCategoria.getText()+"'",
                         Category.class);
                 }
 

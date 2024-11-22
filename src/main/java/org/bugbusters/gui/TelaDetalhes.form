@@ -130,7 +130,7 @@
           <component id="ed5d1" class="javax.swing.JTextField" binding="textFieldLocal">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="200" height="-1"/>
               </grid>
             </constraints>
             <properties>
@@ -140,7 +140,7 @@
           <component id="80bce" class="javax.swing.JTextField" binding="textFieldCorPlaca">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="200" height="-1"/>
               </grid>
             </constraints>
             <properties>
@@ -150,7 +150,7 @@
           <component id="35329" class="javax.swing.JTextField" binding="textFieldIdentificacao">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="200" height="-1"/>
               </grid>
             </constraints>
             <properties>
@@ -195,7 +195,7 @@
           <component id="ec57f" class="javax.swing.JTextField" binding="textFieldCorVeiculo">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="200" height="-1"/>
               </grid>
             </constraints>
             <properties>
@@ -205,7 +205,7 @@
           <component id="f9334" class="javax.swing.JTextField" binding="textFieldCategoria">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
+                <preferred-size width="200" height="-1"/>
               </grid>
             </constraints>
             <properties>
