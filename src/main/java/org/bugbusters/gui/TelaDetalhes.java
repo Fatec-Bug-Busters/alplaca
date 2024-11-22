@@ -91,6 +91,7 @@ public class TelaDetalhes {
                 textFieldCorPlaca.setEnabled(true);
                 textFieldCorVeiculo.setEnabled(true);
                 textFieldCategoria.setEnabled(true);
+                atualizarButton.setEnabled(true);
             }
         });
         atualizarButton.addActionListener(new ActionListener() {
@@ -130,6 +131,14 @@ public class TelaDetalhes {
                 System.out.println(vehicleUpdate);
                 System.out.println(plateUpdate);
 
+                JOptionPane.showMessageDialog(null, "Placa atualizada com sucesso");
+                textFieldIdentificacao.setEnabled(false);
+                textFieldLocal.setEnabled(false);
+                textFieldCorPlaca.setEnabled(false);
+                textFieldCorVeiculo.setEnabled(false);
+                textFieldCategoria.setEnabled(false);
+                atualizarButton.setEnabled(false);
+
                 HibernateService.updateValue(categoryUpdate);
                 HibernateService.updateValue(vehicleUpdate);
                 HibernateService.updateValue(plateUpdate);
@@ -146,6 +155,9 @@ public class TelaDetalhes {
                 HibernateService.deleteValue(plate.getVehicle());
                 ImageSave.delete(plate.getId());
                 HibernateService.closeSession();
+
+                JOptionPane.showMessageDialog(null, "Placa excluída com sucesso.");
+                goBack();
             }
         });
     }
