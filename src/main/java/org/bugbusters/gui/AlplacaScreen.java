@@ -15,6 +15,7 @@ import org.bugbusters.ollama.Ollama;
 import org.bugbusters.ollama.OllamaRequest;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -333,7 +334,7 @@ public class AlplacaScreen {
 
     public void createAndShowGUI() {
         int width = 800;
-        int height = 750;
+        int height = 800;
         mainFrame.setContentPane(contentPane);
         Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/logo.png");
         mainFrame.setIconImage(image);
@@ -342,6 +343,9 @@ public class AlplacaScreen {
         // mainFrame.pack();
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
+        //Estilização
+        estiloBotton();
+        estilizarJTextAreas();
     }
 
     public void createAndShowGUI(Rectangle windowSize) {
@@ -354,6 +358,9 @@ public class AlplacaScreen {
         // mainFrame.pack();
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
+        //Estilização
+        estiloBotton();
+        estilizarJTextAreas();
     }
 
 
@@ -451,5 +458,60 @@ public class AlplacaScreen {
             System.err.println("Logo não encontrado.");
             //throw e;
         }
+    }
+
+
+    public void estiloBotton(){
+        //estilização botoes
+        JButton[] buttons = {openButton, sendButton, addModelButton, placasButton, enviarBDButton};
+        for (JButton button : buttons){
+            button.setBackground(Color.DARK_GRAY);
+            button.setForeground(Color.white);
+            button.setFont(new Font("Arial", Font.BOLD, 14));
+            button.setPreferredSize(new Dimension(120, 30));
+        }
+
+        enviarBDButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                enviarBDButton.setBackground(Color.getHSBColor(0.33f, 0.4f, 0.8f));
+                enviarBDButton.setForeground(Color.BLACK);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                enviarBDButton.setBackground(Color.DARK_GRAY);
+                enviarBDButton.setForeground(Color.white);
+            }
+        });
+
+        //estilização dropdowns
+        modelDropdown.setBackground(Color.WHITE);
+        modelDropdown.setFont(new Font("Arial", Font.PLAIN, 14));
+        modelDropdown.setForeground(Color.BLACK);
+        modelDropdown.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+        dropdownOpt.setBackground(Color.WHITE);
+        dropdownOpt.setFont(new Font("Arial", Font.PLAIN, 14));
+        dropdownOpt.setForeground(Color.BLACK);
+        dropdownOpt.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+    }
+
+    public void estilizarJTextAreas(){
+        Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+
+        Color backgroundColor = new Color(245, 245, 245);
+        Font font = new Font("Arial", Font.PLAIN, 14);
+
+        JTextArea[] textAreas = {textResultLoc, textResultIdentPla, textResultCorPla, textResultCorVei, textResultCateVei};
+        for (JTextArea textArea : textAreas) {
+            textArea.setBackground(backgroundColor);
+            textArea.setFont(font);
+            textArea.setForeground(Color.BLACK);
+            textArea.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        }
+
+        headerPanel.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        contentPane.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
     }
 }
