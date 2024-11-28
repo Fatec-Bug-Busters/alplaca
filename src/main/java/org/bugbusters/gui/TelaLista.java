@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -25,6 +27,10 @@ public class TelaLista {
     private JButton inteligenciaButton;
     private JLabel logoLabel;
     private JButton voltarButton;
+    private JButton pesquisarButton;
+    private JComboBox pesquisarDropdown;
+    private JTextField pesquisarTextField;
+    private JPanel JpPesquisa;
     public List plateList;
 
     public TelaLista(JFrame prevScreen) {
@@ -40,8 +46,12 @@ public class TelaLista {
         headerPanel.setBackground(Color.decode("#cccccc"));
         headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 
+        List<String> options = Arrays.asList("Localidade","Identificação da Placa","Cor da placa","Cor da placa","Cor do veículo","Categoria do veículo");
+        DefaultComboBoxModel<String> modelPesquisar = new DefaultComboBoxModel<>(options.toArray(new String[0]));
+        pesquisarDropdown.setModel(modelPesquisar);
 
-        createTable();
+
+        createTable("plates","id > 0");
 
         inteligenciaButton.addActionListener(new ActionListener() {
             @Override
@@ -58,11 +68,57 @@ public class TelaLista {
         });
 
         loadLogo();
+
+        pesquisarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String option = pesquisarDropdown.getSelectedItem().toString();
+                switch (option) {
+                    case "Localidade":
+                        createTable("plates","location LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    case "Identificação da Placa":
+                        createTable("plates","identification LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    case "Cor da placa":
+                        createTable("plates","color LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    case "Cor do veículo":
+                        createTable("SELECT p.id, p.color, p.identification, p.location, p.id_vehicle FROM plates p JOIN vehicles v ON p.id_vehicle = v.id WHERE v.color LIKE '%"+pesquisarTextField.getText()+"%'");
+                        break;
+                    default:
+                        createTable("SELECT p.id, p.color, p.identification, p.location, p.id_vehicle FROM plates p JOIN vehicles v ON p.id_vehicle = v.id JOIN categories c ON v.id_category = c.id WHERE c.name LIKE '%"+pesquisarTextField.getText()+"%'");
+                }
+            }
+        });
     }
 
-    public void createTable() {
+    public void createTable(String nameTable, String condition) {
         HibernateService.openSession();
-        this.plateList = HibernateService.findByCondition("plates","id > 0",Plate.class);
+        this.plateList = HibernateService.findByCondition(nameTable,condition,Plate.class);
+
+        Object[][] data = new Object[plateList.size()][3];
+        for (int i = 0; i < plateList.size(); i++) {
+            Plate plate = (Plate) plateList.get(i);
+            data[i][0] = plate.getId();
+            data[i][1] = plate.getIdentification();
+            data[i][2] = "Detalhes";
+        }
+        HibernateService.closeSession();
+
+        tablePlacas.setModel(new DefaultTableModel(
+            data,
+            new String[]{"ID", "Placa", "Detalhes"}
+        ));
+
+        tablePlacas.getColumn("Detalhes").setCellRenderer((TableCellRenderer) new ButtonRenderer());
+        tablePlacas.getColumn("Detalhes").setCellEditor(new ButtonEditor(new JCheckBox()));
+
+    }
+
+    public void createTable(String sql) {
+        HibernateService.openSession();
+        this.plateList = HibernateService.findByCondition(sql,Plate.class);
 
         Object[][] data = new Object[plateList.size()][3];
         for (int i = 0; i < plateList.size(); i++) {
@@ -134,6 +190,7 @@ public class TelaLista {
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
+
     }
 
     public void createAndShowGUI(Rectangle windowSize) {
@@ -144,6 +201,9 @@ public class TelaLista {
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
 
+        //desing
+        estiloBotton();
+        estilizarJTextAreas();
         /**
          * Override the close window operation
          */
@@ -159,7 +219,11 @@ public class TelaLista {
      */
     public void goBack() {
         mainFrame.dispose();
-        prevScreen.setVisible(true);
+        prevScreen.dispose();
+        AlplacaScreen alplacaScreen = new AlplacaScreen();
+        Rectangle windowSize = this.mainFrame.getBounds();
+        alplacaScreen.createAndShowGUI(windowSize);
+
     }
 
     protected void loadLogo() {
@@ -180,5 +244,48 @@ public class TelaLista {
             System.err.println("Logo não encontrado.");
             //throw e;
         }
+    }
+
+    public void estiloBotton(){
+        //estilização botoes
+        JButton[] buttons = {inteligenciaButton, voltarButton, pesquisarButton };
+        for (JButton button : buttons){
+            button.setBackground(Color.DARK_GRAY);
+            button.setForeground(Color.white);
+            button.setFont(new Font("Arial", Font.BOLD, 14));
+            button.setPreferredSize(new Dimension(120, 30));
+        }
+
+        pesquisarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pesquisarButton.setBackground(Color.getHSBColor(0.33f, 0.4f, 0.8f));
+                pesquisarButton.setForeground(Color.BLACK);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pesquisarButton.setBackground(Color.DARK_GRAY);
+                pesquisarButton.setForeground(Color.white);
+            }
+        });
+
+        pesquisarDropdown.setBackground(Color.WHITE);
+        pesquisarDropdown.setFont(new Font("Arial", Font.PLAIN, 14));
+        pesquisarDropdown.setForeground(Color.BLACK);
+        pesquisarDropdown.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+    }
+
+    public void estilizarJTextAreas(){
+        Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+
+        Color backgroundColor = new Color(245, 245, 245);
+        Font font = new Font("Arial", Font.PLAIN, 14);
+        pesquisarTextField.setBackground(backgroundColor);
+        pesquisarTextField.setFont(font);
+        pesquisarTextField.setForeground(Color.BLACK);
+        pesquisarTextField.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+        headerPanel.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        contentPane.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
     }
 }

@@ -1,9 +1,13 @@
 package org.bugbusters.gui;
 
+import org.bugbusters.database.ImageSave;
+import org.bugbusters.database.entity.Category;
 import org.bugbusters.database.entity.Plate;
 import org.bugbusters.database.entity.Vehicle;
+import org.bugbusters.database.hibernate.HibernateService;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,19 +22,23 @@ public class TelaDetalhes {
     private JFrame prevPrevScreen;
     private JPanel contentPane;
     private JPanel header;
-    private JPanel panelPlacas;
-    private JLabel lblPlacaIdentificacao;
-    private JLabel lblPlacaLocal;
-    private JLabel lblPlacaCor;
-    private JPanel panelVeiculos;
-    private JLabel lblVeiculoCor;
-    private JLabel lblVeiculoCategoria;
     private JLabel lblPhoto;
     private JPanel headerPanel;
     private JButton placasButton;
     private JButton inteligenciaButton;
     private JLabel logoLabel;
     private JButton voltarButton;
+    private JButton atualizarButton;
+    private JButton deletarButton;
+    private JTextField textFieldIdentificacao;
+    private JTextField textFieldLocal;
+    private JTextField textFieldCorPlaca;
+    private JTextField textFieldCorVeiculo;
+    private JTextField textFieldCategoria;
+    private JButton editarButton;
+    private JPanel JpanelImage;
+    private JPanel panelPlacas;
+    private JPanel panelVeiculos;
 
     public TelaDetalhes(Plate plate, JFrame prevScreen, JFrame prevPrevScreen) {
         // HibernateService.openSession();
@@ -44,10 +52,6 @@ public class TelaDetalhes {
         this.prevScreen = prevScreen;
         this.prevPrevScreen = prevPrevScreen;
         prevScreen.setVisible(false);
-
-        // header
-        headerPanel.setBackground(Color.decode("#cccccc"));
-        headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 
         placasButton.addActionListener(new ActionListener() {
             @Override
@@ -67,6 +71,90 @@ public class TelaDetalhes {
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                goBack();
+            }
+        });
+
+        textFieldIdentificacao.setEnabled(false);
+        textFieldLocal.setEnabled(false);
+        textFieldCorPlaca.setEnabled(false);
+        textFieldCorVeiculo.setEnabled(false);
+        textFieldCategoria.setEnabled(false);
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textFieldIdentificacao.setEnabled(true);
+                textFieldLocal.setEnabled(true);
+                textFieldCorPlaca.setEnabled(true);
+                textFieldCorVeiculo.setEnabled(true);
+                textFieldCategoria.setEnabled(true);
+                atualizarButton.setEnabled(true);
+            }
+        });
+        atualizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HibernateService.openSession();
+                Category categoryUpdate = HibernateService.findByConditionObject("categories",
+                    "name = '"+textFieldCategoria.getText()+"'",
+                    Category.class);
+
+                if (categoryUpdate == null)
+                {
+                    Category categoryInsert = new Category();
+                    categoryInsert.setName(textFieldCategoria.getText());
+                    HibernateService.insertValue(categoryInsert);
+
+                    categoryUpdate = HibernateService.findByConditionObject("categories",
+                        "name = '"+textFieldCategoria.getText()+"'",
+                        Category.class);
+                }
+
+                Vehicle vehicleUpdate = new Vehicle();
+                vehicleUpdate.setId(plate.getVehicle().getId());
+                vehicleUpdate.setColor(textFieldCorVeiculo.getText());
+                vehicleUpdate.setCategory(categoryUpdate);
+
+
+                System.out.println("Placa Criada");
+                Plate plateUpdate = new Plate();
+                plateUpdate.setId(plate.getId());
+                plateUpdate.setVehicle(vehicleUpdate);
+                plateUpdate.setIdentification(textFieldIdentificacao.getText());
+                plateUpdate.setLocation(textFieldLocal.getText());
+                plateUpdate.setColor(textFieldCorPlaca.getText());
+
+                System.out.println(categoryUpdate);
+                System.out.println(vehicleUpdate);
+                System.out.println(plateUpdate);
+
+                JOptionPane.showMessageDialog(null, "Placa atualizada com sucesso");
+                textFieldIdentificacao.setEnabled(false);
+                textFieldLocal.setEnabled(false);
+                textFieldCorPlaca.setEnabled(false);
+                textFieldCorVeiculo.setEnabled(false);
+                textFieldCategoria.setEnabled(false);
+                atualizarButton.setEnabled(false);
+
+                HibernateService.updateValue(categoryUpdate);
+                HibernateService.updateValue(vehicleUpdate);
+                HibernateService.updateValue(plateUpdate);
+                HibernateService.closeSession();
+
+
+            }
+        });
+        deletarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HibernateService.openSession();
+                HibernateService.deleteValue(plate);
+                HibernateService.deleteValue(plate.getVehicle());
+                ImageSave.delete(plate.getId());
+                HibernateService.closeSession();
+
+                JOptionPane.showMessageDialog(null, "Placa excluída com sucesso.");
                 goBack();
             }
         });
@@ -91,6 +179,10 @@ public class TelaDetalhes {
 
         // Load the plate photo
         loadPlateImage();
+
+        //Desing
+        estiloBotton();
+        estilizarJTextAreas();
     }
 
     /**
@@ -98,7 +190,12 @@ public class TelaDetalhes {
      */
     public void goBack() {
         mainFrame.dispose();
-        prevScreen.setVisible(true);
+        prevScreen.dispose();
+        prevPrevScreen.dispose();
+        TelaLista telaLista = new TelaLista(mainFrame);
+        Rectangle windowSize = this.mainFrame.getBounds();
+        telaLista.createAndShowGUI(windowSize);
+
     }
 
     public void goBackTwice() {
@@ -111,13 +208,15 @@ public class TelaDetalhes {
      * Load plate data into the page
      */
     public void loadPlate() {
-        this.lblPlacaIdentificacao.setText(this.plate.getIdentification());
-        this.lblPlacaLocal.setText(this.plate.getLocation());
-        this.lblPlacaCor.setText(this.plate.getColor());
+        this.textFieldIdentificacao.setText(this.plate.getIdentification());
+        this.textFieldLocal.setText(this.plate.getLocation());
+        this.textFieldCorPlaca.setText(this.plate.getColor());
 
         Vehicle vehicle = this.plate.getVehicle();
-        this.lblVeiculoCor.setText(vehicle.getColor());
-        this.lblVeiculoCategoria.setText(vehicle.getCategory().getName());
+        this.textFieldCorVeiculo.setText(vehicle.getColor());
+        this.textFieldCategoria.setText(vehicle.getCategory().getName());
+
+
     }
 
     public void loadPlateImage() {
@@ -168,6 +267,61 @@ public class TelaDetalhes {
             System.out.println(e.getMessage());
             System.err.println("Logo não encontrado.");
             //throw e;
+        }
+    }
+
+    public void estiloBotton(){
+        //estilização botoes
+        JButton[] buttons = {inteligenciaButton, voltarButton, placasButton, atualizarButton, deletarButton, editarButton };
+        for (JButton button : buttons){
+            button.setBackground(Color.DARK_GRAY);
+            button.setForeground(Color.white);
+            button.setFont(new Font("Arial", Font.BOLD, 14));
+            button.setPreferredSize(new Dimension(120, 30));
+        }
+
+        editarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                editarButton.setBackground(Color.getHSBColor(0.6f, 0.7f, 0.5f));
+                editarButton.setForeground(Color.WHITE);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                editarButton.setBackground(Color.DARK_GRAY);
+                editarButton.setForeground(Color.white);
+            }
+        });
+
+        deletarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                deletarButton.setBackground(Color.getHSBColor(0.0f, 0.5f, 0.8f));
+                deletarButton.setForeground(Color.WHITE);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                deletarButton.setBackground(Color.DARK_GRAY);
+                deletarButton.setForeground(Color.white);
+            }
+        });
+    }
+
+    public void estilizarJTextAreas(){
+        Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+
+        Color backgroundColor = new Color(245, 245, 245);
+        Font font = new Font("Arial", Font.PLAIN, 14);
+
+        JTextField[] textFields = {textFieldIdentificacao, textFieldLocal, textFieldCorPlaca, textFieldCorVeiculo, textFieldCategoria};
+        for (JTextField textField : textFields) {
+            textField.setBackground(backgroundColor);
+            textField.setFont(font);
+            textField.setForeground(Color.BLACK);
+            textField.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        }
+
+        JPanel[] Panels = {headerPanel, contentPane, JpanelImage, header};
+        for (JPanel panel : Panels) {
+            panel.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
         }
     }
 }
