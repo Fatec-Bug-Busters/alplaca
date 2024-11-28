@@ -55,6 +55,13 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 - [x] Detalhes de Cada Placa
 - [x] Navegação Entre Elas
 
+### Sprint 4
+
+![GIF Sprint 4](images/GifSprint4.gif)
+- [x] Melhorias no Desing
+- [x] Atualizar e Excluir
+- [x] Pesquisar Placas
+
 ## Competências desenvolvidas
 
 ### Hard Skills
