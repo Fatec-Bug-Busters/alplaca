@@ -48,6 +48,9 @@ public class AlplacaScreen {
     private JButton inteligenciaButton;
     private JPanel headerPanel;
     private JLabel logoLabel;
+    private JPanel JpResultado;
+    private JPanel JpCampoInsert;
+    private JLabel TitleAplaca;
     private String fileName;
     private String filePath;
 
@@ -333,8 +336,8 @@ public class AlplacaScreen {
     }
 
     public void createAndShowGUI() {
-        int width = 800;
-        int height = 800;
+        int width = 810;
+        int height = 830;
         mainFrame.setContentPane(contentPane);
         Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/images/logo.png");
         mainFrame.setIconImage(image);
@@ -513,5 +516,10 @@ public class AlplacaScreen {
         headerPanel.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         contentPane.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
+
+        JPanel[] Panels = {JpCampoInsert, JpResultado};
+        for (JPanel panel : Panels) {
+            panel.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.9f));
+        }
     }
 }

@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -29,6 +30,7 @@ public class TelaLista {
     private JButton pesquisarButton;
     private JComboBox pesquisarDropdown;
     private JTextField pesquisarTextField;
+    private JPanel JpPesquisa;
     public List plateList;
 
     public TelaLista(JFrame prevScreen) {
@@ -199,6 +201,9 @@ public class TelaLista {
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
 
+        //desing
+        estiloBotton();
+        estilizarJTextAreas();
         /**
          * Override the close window operation
          */
@@ -239,5 +244,48 @@ public class TelaLista {
             System.err.println("Logo não encontrado.");
             //throw e;
         }
+    }
+
+    public void estiloBotton(){
+        //estilização botoes
+        JButton[] buttons = {inteligenciaButton, voltarButton, pesquisarButton };
+        for (JButton button : buttons){
+            button.setBackground(Color.DARK_GRAY);
+            button.setForeground(Color.white);
+            button.setFont(new Font("Arial", Font.BOLD, 14));
+            button.setPreferredSize(new Dimension(120, 30));
+        }
+
+        pesquisarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pesquisarButton.setBackground(Color.getHSBColor(0.33f, 0.4f, 0.8f));
+                pesquisarButton.setForeground(Color.BLACK);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pesquisarButton.setBackground(Color.DARK_GRAY);
+                pesquisarButton.setForeground(Color.white);
+            }
+        });
+
+        pesquisarDropdown.setBackground(Color.WHITE);
+        pesquisarDropdown.setFont(new Font("Arial", Font.PLAIN, 14));
+        pesquisarDropdown.setForeground(Color.BLACK);
+        pesquisarDropdown.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+    }
+
+    public void estilizarJTextAreas(){
+        Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+
+        Color backgroundColor = new Color(245, 245, 245);
+        Font font = new Font("Arial", Font.PLAIN, 14);
+        pesquisarTextField.setBackground(backgroundColor);
+        pesquisarTextField.setFont(font);
+        pesquisarTextField.setForeground(Color.BLACK);
+        pesquisarTextField.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+        headerPanel.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        contentPane.setBackground(Color.getHSBColor(0.55f, 0.4f, 0.9f));
     }
 }
