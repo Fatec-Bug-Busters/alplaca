@@ -13,9 +13,10 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 - [API 2](#API-2)
   - [Índice](#índice)
   - [Cronograma e Sprints](#cronograma-e-sprints)
-    - [Sprint 1. Produto Mínimo Viável](#sprint-1-produto-mínimo-viável)
+    - [Sprint 1](#sprint-1)
     - [Sprint 2](#sprint-2)
     - [Sprint 3](#sprint-3)
+    - [Sprint 4](#sprint-4)
   - [Competências desenvolvidas](#competências-desenvolvidas)
     - [Hard Skills](#hard-skills)
     - [Soft Skills](#soft-skills)
@@ -31,17 +32,17 @@ Projeto sobre uma interface gráfica utilizando Java que conecta-se com um banco
 | 01                | 09/09/2024 | Concluída    |
 | 02                | 30/09/2024 | Concluída    |
 | 03                | 21/10/2024 | Concluída    |
-| 04                | 11/11/2024 | Em progresso |
+| 04                | 11/11/2024 | Concluída    |
 | Feira de Soluções | 12/12/2024 | A fazer      |
 
-### Sprint 1. Produto Mínimo Viável
+### Sprint 1
 
 ![GIF Sprint 1](images/GifSprint1.gif)
 - [x] Interface simplificada;
 - [x] Leitura de placas de carro;
 - [x] Opções de modelo de IA.
 
-### Sprint 2. Produto Mínimo Viável
+### Sprint 2
 
 ![GIF Sprint 2](images/GifSprint2.gif)
 - [x] Escolha de modelos
@@ -138,6 +139,16 @@ Soft skills desenvolvidas
 ### Backlog da Sprint
 
 ![Backlog Sprint](images/BacklogSprint3.png)
+
+## Sprint 4
+
+### Gráfico Burndown
+
+![Burndown](images/Burndown4.png)
+
+### Backlog da Sprint
+
+![Backlog Sprint](images/BacklogSprint4.png)
 
 <!-- ## Veja Também
 
